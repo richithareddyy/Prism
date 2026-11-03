@@ -8,9 +8,10 @@
 services:
   - type: web
     name: zoomlens
-    runtime: node
-    buildCommand: npm ci
-    startCommand: npm start
+    # The Dockerfile, not Render's Node runtime: the RTMS SDK needs a newer
+    # system library than some hosts' Node environments have.
+    runtime: docker
+    dockerfilePath: ./Dockerfile
     healthCheckPath: /healthz
     autoDeployTrigger: commit
     envVars:

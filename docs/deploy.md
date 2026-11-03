@@ -11,14 +11,19 @@ September. An always-on server answers every revalidation.
 
 ## What the server needs
 
-- Node 22.9 or later. The Zoom RTMS SDK needs 22, and `npm start` uses
-  `--env-file-if-exists`, which arrived in 22.9.
-- Linux or macOS, on x64 or arm64, the platforms the RTMS SDK ships for.
-  `npm ci` downloads the right build.
+- **The container in `Dockerfile`, on x64.** It is the supported way to run
+  ZoomLens on a server, and it has been run end to end on Linux: the RTMS SDK,
+  ffmpeg decoding, webhooks and the panel. It isn't just a convenience. The RTMS
+  SDK needs `GLIBCXX_3.4.31`, which Debian bookworm and other older systems
+  lack, so on those the server stops at startup with `GLIBCXX_3.4.31 not found`.
+  A host's built-in Node environment may be one of them.
 - HTTPS, and WebSocket support on the same address.
 - An instance that doesn't sleep (see above).
 
-Nothing has to be stored on disk. Answers come from memory.
+Nothing has to be stored on disk, and the app folder can be read-only. Answers
+come from memory. Lines saying `failed to open file [/app/logs/node_1]` are
+harmless: the RTMS SDK logs to a `logs` folder only if one exists. Don't create
+it, so that no meeting details are written to disk.
 
 ## Deploying on Render
 
@@ -40,8 +45,10 @@ curl -s https://NEW/healthz
 
 Expect `{"ok":true,...}`. `PORT` comes from Render, and the server reads it.
 
-Any other Node host works the same way: build with `npm ci`, start with
-`npm start`, health check `/healthz`, and the environment variables above.
+Any host that runs a container works the same way, such as DigitalOcean App
+Platform, Railway, Fly.io or Azure: point it at the `Dockerfile`, set the health
+check to `/healthz`, listen on the `PORT` it provides, and add the environment
+variables above.
 
 ## Pointing Zoom at it
 

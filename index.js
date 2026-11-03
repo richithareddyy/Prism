@@ -34,11 +34,12 @@ const hosts = new Map(); // meetingUUID -> Zoom user ID
 let relay = null; // set once the HTTP server exists
 
 const CAPTURE_DIR = "captures";
-fs.mkdirSync(CAPTURE_DIR, { recursive: true });
 
 // Screen-share video is kept on disk only when asked for: it is a recording of
-// someone else's screen.
+// someone else's screen. Nothing else writes here, so a server with a read-only
+// app folder runs fine.
 const SAVE_CAPTURES = process.env.ZOOM_LENS_SAVE_CAPTURES === "1";
+if (SAVE_CAPTURES) fs.mkdirSync(CAPTURE_DIR, { recursive: true });
 
 const log = (...args) => console.log(`[${new Date().toLocaleTimeString()}]`, ...args);
 
@@ -186,6 +187,7 @@ function endStream(streamId, why) {
 const ALLOW_RECORDED = process.env.ZOOM_LENS_ALLOW_RECORDED === "1";
 
 function newestCapture() {
+  if (!fs.existsSync(CAPTURE_DIR)) return null;
   const files = fs
     .readdirSync(CAPTURE_DIR)
     .filter((f) => f.endsWith(".h264"))

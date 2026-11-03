@@ -1,0 +1,22 @@
+# Secrets and screen content must never reach an image.
+.env
+.env.*
+!.env.example
+.tokens.json
+.last-answer.json
+captures
+snapshots
+
+node_modules
+.git
+site
+brand
+demo
+docs
+*.pdf
+*.png
+*.MOV
+*.xlsx
+
+test-*.js
+eval-changes.js
