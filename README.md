@@ -4,52 +4,37 @@ You join a meeting late, someone is sharing a dense chart, and you'd rather not 
 
 I'm building it for the Next Lab Zoom Fellowship at Arizona State University. The [project site](https://zoomlens.vercel.app) has a demo with scripted answers.
 
-```text
-Zoom RTMS → H.264 buffer → FFmpeg → JPEG → Anthropic vision API
-                                               ↓
-Zoom panel ← session-scoped WebSocket reply ← answer.js
-```
+## From screen share to answer
 
-Node.js, Express, the Zoom Apps and RTMS SDKs, WebSockets, and FFmpeg. The panel is plain JavaScript.
+Zoom sends a video stream through RTMS. The server keeps enough H.264 video to produce a complete frame, then uses FFmpeg to turn it into a JPEG. The image and your question go to an Anthropic vision model. The answer returns over a WebSocket connection to your panel.
 
-## How it works
+Built with **Node.js, Express, Zoom’s Apps and RTMS SDKs, WebSockets, and FFmpeg**, with plain JavaScript in the panel.
 
-An arbitrary chunk of H.264 can't be decoded on its own, so `framebuffer.js` keeps the parameter sets plus everything since the latest keyframe, which is always a decodable clip. `decode.js` turns that into a JPEG of the current frame on demand, and `answer.js` sends it to the model with the question. Follow-ups include the previous answer and a fresh image.
+The server checks participant identity using signed Zoom data and sends replies only to the participant who asked. It receives screen sharing, not meeting audio, camera video, chat, or transcripts. Images and questions are sent to the model provider without redaction; saved screen content is deleted after 24 hours. See the [privacy notes](docs/privacy.md).
 
-Every participant runs their own copy of the panel, so anything the panel enforces can be changed by whoever runs it. That's why privacy lives on the server: identity comes from Zoom's app context and signed webhooks, each connection is bound to one participant, and answers go back to the session that asked. The host's off switch works the same way, with the host identified from Zoom's signed `meeting.rtms_started` event.
+## Where it stands
 
-Only the screen share is received, never audio, camera video, chat, or transcripts. Images and questions do go to the model provider, without redaction ([privacy notes](docs/privacy.md)).
+The panel loads in real meetings and `startRTMS` succeeds, but Zoom events stopped reaching my server after 29 September 2026. That live-stream issue remains unresolved. The host switch has been tested with a simulated Zoom client; demos use a labeled local-display fallback.
 
-## Status
-
-The panel loads in real meetings and `startRTMS` succeeds, but Zoom events stopped reaching my server after 29 September 2026, and I'm still working out why. Until that's resolved, the host switch and anything else that needs the live stream have only been tested with a simulated Zoom client. Demos use the local-display fallback, and answers say so.
-
-## Accessibility work
-
-**Announce changes** describes meaningful screen changes for people who can't see them, and **Color Assist** flags colors that could be confused and has answers name things by label, value, or position. Both are opt-in. A 64x36 greyscale fingerprint and local color analysis (CIEDE2000, simulated color vision deficiencies) decide when to call the model at all.
-
-Neither mode has been tried with the people it's for yet. The [accessibility notes](docs/accessibility.md) cover the design and development measurements.
+Two optional accessibility modes describe screen changes and flag colors that may be difficult to distinguish. Local image checks decide when to request a model description. Neither mode has been tested with its intended users yet ([design notes](docs/accessibility.md)).
 
 ## Run locally
 
-Requires Node.js 22.9+, a configured Zoom Marketplace app, and an Anthropic API key.
+Requires Node.js 22.9+, FFmpeg, a configured Zoom Marketplace app, and an Anthropic API key.
 
 ```bash
 npm ci
 cp .env.example .env
 npm start
+npm test
 ```
 
-Fill in the Zoom credentials, webhook secret, API key, and supported vision model in `.env`. The server defaults to port 8080; Zoom needs an HTTPS address that stays up, since it revalidates the webhook every 72 hours. See [deployment](docs/deploy.md) for the complete configuration, and `/healthz` to see when Zoom last reached the server.
+Set the Zoom credentials, webhook secret, API key, and vision model in `.env`. The server defaults to port 8080. Zoom needs a stable HTTPS address; [deployment instructions](docs/deploy.md) cover that setup. `/healthz` shows when Zoom last reached the server.
 
-## Tests
+Tests check session isolation, host controls, rate limits, accessibility triggers, and retention. They do not call the model or measure answer accuracy.
 
-`npm test` runs eight scripts covering trust, session isolation, rate limits, change detection, color analysis, the watch loop, retention, and host control. They don't call the model, and answer accuracy has no automated evaluation.
+[Full guide](GUIDE.md) · [Live meeting checklist](docs/live-test.md) · [Panel protocol](docs/protocol.md) · [Marketplace notes](docs/marketplace.md)
 
-Local-display and recorded-video fallbacks are opt-in and meant for controlled demos. Saved screen content is deleted after 24 hours.
-
-[Privacy](docs/privacy.md) · [Panel protocol](docs/protocol.md) · [Full setup and limitations](GUIDE.md) · [Marketplace notes](docs/marketplace.md) · [Live meeting test](docs/live-test.md)
-
-Public pages: [Privacy Policy](https://zoomlens.vercel.app/privacy.html) · [Terms of Use](https://zoomlens.vercel.app/terms.html) · [Guide](https://zoomlens.vercel.app/guide.html) · [Support](https://zoomlens.vercel.app/support.html)
+[Privacy Policy](https://zoomlens.vercel.app/privacy.html) · [Terms](https://zoomlens.vercel.app/terms.html) · [Support](https://zoomlens.vercel.app/support.html)
 
 Built on Zoom’s RTMS JavaScript quickstart; its attribution remains in [LICENSE](LICENSE).
