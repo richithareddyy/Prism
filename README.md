@@ -42,12 +42,6 @@ npm start
 
 Fill in the Zoom credentials, webhook secret, API key, and supported vision model in `.env`. The server defaults to port 8080; Zoom needs an HTTPS address that stays up, since it revalidates the webhook every 72 hours. See [deployment](docs/deploy.md) for the complete configuration, and `/healthz` to see when Zoom last reached the server.
 
-## Accessibility work
-
-**Announce changes** describes meaningful screen changes. **Color Assist** identifies potentially confusing colors and encourages explanations using labels, values, and position. Both are opt-in. Image fingerprints and color analysis limit unnecessary model calls.
-
-These modes have not yet been evaluated with their intended users. The [accessibility notes](docs/accessibility.md) explain the implementation and development measurements.
-
 ## Tests
 
 `npm test` runs eight scripts covering trust, session isolation, rate limits, change detection, color analysis, the watch loop, retention, and host control. They don't call the model, and answer accuracy has no automated evaluation.
