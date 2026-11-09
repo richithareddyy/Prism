@@ -45,7 +45,7 @@ export function startRetention({ captureDir, snapshotDir, captureHours, snapshot
       ...sweep(captureDir, { maxAgeMs: captureHours * HOUR, match: (n) => n.endsWith(".h264") }),
       ...sweep(snapshotDir, { maxAgeMs: snapshotHours * HOUR, match: (n) => /\.(jpe?g|png)$/i.test(n) }),
       // A decode takes well under a second, so ten minutes is never one in progress.
-      ...sweep(os.tmpdir(), { maxAgeMs: 10 * 60 * 1000, match: (n) => /^zoomlens-.*\.(jpe?g|png)$/.test(n) }),
+      ...sweep(os.tmpdir(), { maxAgeMs: 10 * 60 * 1000, match: (n) => /^(prism|zoomlens)-.*\.(jpe?g|png)$/.test(n) }),
     ];
     if (gone.length) log(`RETENTION deleted ${gone.length} old file(s) of screen content`);
   };

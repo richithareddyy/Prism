@@ -15,7 +15,7 @@ const check = (name, passed, detail) => {
 };
 
 const HOUR = 60 * 60 * 1000;
-const root = fs.mkdtempSync(path.join(os.tmpdir(), "zoomlens-retention-test-"));
+const root = fs.mkdtempSync(path.join(os.tmpdir(), "prism-retention-test-"));
 const write = (dir, name, ageHours) => {
   fs.mkdirSync(dir, { recursive: true });
   const file = path.join(dir, name);
@@ -26,7 +26,7 @@ const write = (dir, name, ageHours) => {
 };
 
 console.log("\n" + "-".repeat(70));
-console.log("  Zoom Lens, retention of screen content on disk");
+console.log("  Prism, retention of screen content on disk");
 console.log("-".repeat(70) + "\n");
 
 // 1. Old recordings go, recent ones and other files stay.
@@ -63,7 +63,7 @@ check("Hours are read from the environment",
   const snapshots = path.join(root, "server-snapshots");
   write(captures, "deskshare-1.h264", 48);
   write(snapshots, "latest.jpg", 48);
-  const stray = write(os.tmpdir(), `zoomlens-${process.pid}-test.jpg`, 1);
+  const stray = write(os.tmpdir(), `prism-${process.pid}-test.jpg`, 1);
   const lines = [];
   const r = startRetention({
     captureDir: captures, snapshotDir: snapshots, captureHours: 24, snapshotHours: 24,

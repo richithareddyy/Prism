@@ -3,9 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ZoomLens · Ask AI about what's shared in Zoom</title>
-  <meta name="description" content="ZoomLens is an AI assistant inside Zoom. Privately ask about the spreadsheet, chart or slide someone is sharing, and get an answer only you see, without interrupting the meeting. In development.">
+  <title>Prism · See every screen clearly</title>
+  <meta name="description" content="Prism is an AI assistant for Zoom meetings. Privately ask about the spreadsheet, chart or slide someone is sharing, and get an answer only you see, without interrupting the meeting. In development.">
+  <meta property="og:title" content="Prism · See every screen clearly">
+  <meta property="og:description" content="Privately ask AI about whatever is shared in your Zoom meeting. Only you see the answer.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zoomlens.vercel.app/">
+  <meta property="og:image" content="https://zoomlens.vercel.app/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Prism logo with the tagline See every screen clearly.">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="mark.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -18,8 +28,8 @@
 
   <header class="nav">
     <div class="wrap nav-row">
-      <a class="wordmark" href="#top" aria-label="ZoomLens home">
-        <span class="glyph" aria-hidden="true"></span><span>Zoom<b>Lens</b></span>
+      <a class="wordmark" href="#top" aria-label="Prism home">
+        <span class="glyph" aria-hidden="true"></span><span>Prism</span>
       </a>
       <nav aria-label="Primary">
         <ul class="nav-links">
@@ -32,7 +42,7 @@
       </nav>
       <div class="nav-actions">
         <button type="button" class="btn btn-primary btn-sm" data-try>Try the demo</button>
-        <a class="icon-link" href="https://github.com/richithareddyy/ZoomLens" aria-label="ZoomLens on GitHub">
+        <a class="icon-link" href="https://github.com/richithareddyy/ZoomLens" aria-label="Prism on GitHub">
           <svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         </a>
       </div>
@@ -46,8 +56,8 @@
       <div class="wrap hero-grid">
         <div class="hero-copy">
           <p class="eyebrow">A Zoom app, in development</p>
-          <h1>Ask AI about anything shared in your Zoom meeting.</h1>
-          <p class="body">ZoomLens helps you understand shared screens privately, without interrupting the meeting.</p>
+          <h1>See every screen clearly.</h1>
+          <p class="body">Prism is a private AI assistant for Zoom meetings. Ask about whatever is being shared, and only you see the answer.</p>
           <div class="cta">
             <button type="button" class="btn btn-primary" data-try>Try the demo</button>
             <a class="btn btn-ghost" href="#how">How it works</a>
@@ -76,7 +86,7 @@
           </div>
           <div class="demo-labels" aria-hidden="true">
             <span>MK, the presenter, is sharing</span>
-            <span>Your <em>private</em> ZoomLens panel</span>
+            <span>Your <em>private</em> Prism panel</span>
           </div>
 
 
@@ -110,15 +120,15 @@
                 <p class="pv-strip" id="pv-strip" aria-live="polite"></p>
               </div>
 
-              <aside class="lens-panel zl" id="lens-panel" aria-label="ZoomLens">
+              <aside class="lens-panel zl" id="lens-panel" aria-label="Prism">
                 <div class="apps-bar" aria-hidden="true">
-                  <span class="apps-back">‹</span><span class="glyph glyph-xs"></span>ZoomLens<i>BETA</i><span class="apps-more">···</span>
+                  <span class="apps-back">‹</span><span class="glyph glyph-xs"></span>Prism<i>BETA</i><span class="apps-more">···</span>
                 </div>
                 <div class="zl-head">
-                  <h3 class="zl-title" id="lp-logo"><span class="glyph glyph-panel" aria-hidden="true"></span>ZoomLens</h3>
+                  <h3 class="zl-title" id="lp-logo"><span class="glyph glyph-panel" aria-hidden="true"></span>Prism</h3>
                   <div class="zl-head-right">
                     <span class="zl-pill" id="lp-state" data-kind="ok" role="status" aria-live="polite"><span class="dot" aria-hidden="true"></span><span id="lp-state-text">Ready</span></span>
-                    <button type="button" class="lp-close" id="lp-close" aria-label="Close ZoomLens" data-tip="Close ZoomLens">
+                    <button type="button" class="lp-close" id="lp-close" aria-label="Close Prism" data-tip="Close Prism">
                       <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
                     </button>
                   </div>
@@ -156,29 +166,29 @@
               <span class="ctl ctl-inert" aria-hidden="true"><svg viewBox="0 0 16 16" width="18" height="18"><path d="M2.5 3.5h11v7.5H7L4 13.5V11H2.5z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>Chat</span>
               <span class="ctl ctl-inert" aria-hidden="true"><svg viewBox="0 0 16 16" width="18" height="18"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M5.5 9.3c.6 1 1.4 1.5 2.5 1.5s1.9-.5 2.5-1.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="6" cy="6.5" r=".9" fill="currentColor"/><circle cx="10" cy="6.5" r=".9" fill="currentColor"/></svg>React</span>
               <span class="ctl ctl-inert ctl-share" aria-hidden="true"><svg viewBox="0 0 16 16" width="18" height="18"><rect x="1" y="1" width="14" height="14" rx="3.5" fill="#17A34A"/><path d="M8 11.5V5M5.3 7.5 8 4.8l2.7 2.7" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Share</span>
-              <button type="button" class="ctl ctl-lens" id="ctl-lens" aria-pressed="true" aria-label="ZoomLens panel" data-tip="Close ZoomLens"><span class="glyph glyph-xs" aria-hidden="true"></span>ZoomLens</button>
+              <button type="button" class="ctl ctl-lens" id="ctl-lens" aria-pressed="true" aria-label="Prism panel" data-tip="Close Prism"><span class="glyph glyph-xs" aria-hidden="true"></span>Prism</button>
               <span class="ctl ctl-inert" aria-hidden="true"><svg viewBox="0 0 16 16" width="18" height="18"><circle cx="3.5" cy="8" r="1.3" fill="currentColor"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/><circle cx="12.5" cy="8" r="1.3" fill="currentColor"/></svg>More</span>
               <span class="ctl-leave" aria-hidden="true">Leave</span>
             </div>
           </div>
           <div class="viewbar">
             <button type="button" class="btn btn-ghost btn-sm" id="view-toggle" aria-pressed="false" aria-controls="meeting">See it as the presenter</button>
-            <p id="view-note">This is your view, with ZoomLens open.</p>
+            <p id="view-note">This is your view, with Prism open.</p>
           </div>
           <p class="sr-only" id="away-status" role="status" aria-live="polite"></p>
           <p class="note">Interface demonstration. Every answer here is written for this page and chosen by matching your question; no AI model is called.</p>
           <details class="today">
-            <summary>What's in ZoomLens today, and what's a concept</summary>
+            <summary>What's in Prism today, and what's a concept</summary>
             <div class="today-cols">
               <div>
-                <h4>In ZoomLens today</h4>
+                <h4>In Prism today</h4>
                 <ul>
                   <li>Describe screen, Explain, and What changed?</li>
                   <li>Typed questions, and follow-ups that build on the last answer</li>
                   <li>Announce changes and Color Assist</li>
                   <li>Answers only you see, without the presenter being told</li>
                   <li>A Start button in the panel, with the host's approval when a participant presses it</li>
-                  <li>A switch for the host to turn ZoomLens off for everyone</li>
+                  <li>A switch for the host to turn Prism off for everyone</li>
                   <li>Your last answer kept for 30 minutes, so follow-ups survive reopening the panel</li>
                 </ul>
               </div>
@@ -192,7 +202,7 @@
                 </ul>
               </div>
             </div>
-            <p>ZoomLens only watches for changes while Announce changes or Color Assist is on. To notice a change it keeps a 64 by 36 grey thumbnail of the last screen it described, not a recording.</p>
+            <p>Prism only watches for changes while Announce changes or Color Assist is on. To notice a change it keeps a 64 by 36 grey thumbnail of the last screen it described, not a recording.</p>
           </details>
         </div>
       </div>
@@ -204,7 +214,7 @@
         <h2>How it works</h2>
         <ol class="steps3">
           <li><span class="n">01</span><b>See</b><span>Someone shares their screen in a Zoom meeting.</span></li>
-          <li><span class="n">02</span><b>Ask</b><span>Open ZoomLens and ask about it. Nobody sees you ask.</span></li>
+          <li><span class="n">02</span><b>Ask</b><span>Open Prism and ask about it. Nobody sees you ask.</span></li>
           <li><span class="n">03</span><b>Understand</b><span>A short answer appears in your panel within seconds.</span></li>
         </ol>
       </div>
@@ -218,12 +228,12 @@
         <div class="access-grid">
           <div>
             <h3>Blind and low vision</h3>
-            <p>Turn on <b>Announce changes</b> and ZoomLens describes each new slide out loud through your screen reader, without you having to ask.</p>
+            <p>Turn on <b>Announce changes</b> and Prism describes each new slide out loud through your screen reader, without you having to ask.</p>
             <button type="button" class="btn btn-ghost btn-sm" data-try-mode="changes" data-scene="slides">Try it on a presentation</button>
           </div>
           <div>
             <h3>Color blindness</h3>
-            <p>Turn on <b>Color Assist</b> and ZoomLens tells you what the colors on screen mean, such as which numbers are good news and which are bad.</p>
+            <p>Turn on <b>Color Assist</b> and Prism tells you what the colors on screen mean, such as which numbers are good news and which are bad.</p>
             <button type="button" class="btn btn-ghost btn-sm" data-try-mode="color" data-scene="sheet">Try it on a spreadsheet</button>
           </div>
         </div>
@@ -260,22 +270,22 @@
       <div class="wrap">
         <p class="eyebrow">Engineering</p>
         <h2>Behind the meeting window.</h2>
-        <p class="section-lede">Three tricky problems ZoomLens had to solve, explained simply. Each one has a small demo you can play with.</p>
+        <p class="section-lede">Three tricky problems Prism had to solve, explained simply. Each one has a small demo you can play with.</p>
 
         <div class="eng">
           <div class="eng-tabs" role="tablist" aria-label="Engineering highlights" aria-orientation="vertical">
-            <button type="button" role="tab" class="eng-tab" id="eng-tab-stream" aria-controls="eng-stream" aria-selected="true"><span class="n">01</span>How ZoomLens sees the screen</button>
+            <button type="button" role="tab" class="eng-tab" id="eng-tab-stream" aria-controls="eng-stream" aria-selected="true"><span class="n">01</span>How Prism sees the screen</button>
             <button type="button" role="tab" class="eng-tab" id="eng-tab-routing" aria-controls="eng-routing" aria-selected="false" tabindex="-1"><span class="n">02</span>How your answers stay private</button>
             <button type="button" role="tab" class="eng-tab" id="eng-tab-access" aria-controls="eng-access" aria-selected="false" tabindex="-1"><span class="n">03</span>How it knows when to speak up</button>
           </div>
           <div class="eng-panels">
           <div class="eng-panel" role="tabpanel" id="eng-stream" aria-labelledby="eng-tab-stream">
-            <h3>How ZoomLens sees the screen</h3>
+            <h3>How Prism sees the screen</h3>
             <p class="eng-plain">Think of a flipbook where only some pages are complete drawings, and the pages in between only show what moved. To see any page, you start from the last complete drawing and add the changes after it.</p>
-            <dl class="eng-sum"><dt>Problem</dt><dd>Zoom doesn&#39;t send ZoomLens pictures of the shared screen. It sends video, and video saves space by sending a full picture only now and then. Everything in between is a small update that only says what changed. Grab one of those updates on its own and there&#39;s no picture to look at.</dd><dt>Solution</dt><dd>ZoomLens holds on to the latest full picture and every update since. When you press a button, it puts them together and gets an exact picture of the screen at that moment.</dd></dl>
+            <dl class="eng-sum"><dt>Problem</dt><dd>Zoom doesn&#39;t send Prism pictures of the shared screen. It sends video, and video saves space by sending a full picture only now and then. Everything in between is a small update that only says what changed. Grab one of those updates on its own and there&#39;s no picture to look at.</dd><dt>Solution</dt><dd>Prism holds on to the latest full picture and every update since. When you press a button, it puts them together and gets an exact picture of the screen at that moment.</dd></dl>
             <div class="sim sim-stream" data-sim="stream">
               <div class="sim-bar">
-                <div class="sim-seg" role="radiogroup" aria-label="What ZoomLens keeps">
+                <div class="sim-seg" role="radiogroup" aria-label="What Prism keeps">
                   <button type="button" role="radio" aria-checked="true" data-keep="last">Keep only the latest update</button>
                   <button type="button" role="radio" aria-checked="false" data-keep="clip">Keep everything since the last full picture</button>
                 </div>
@@ -297,7 +307,7 @@
           <div class="eng-panel" role="tabpanel" id="eng-routing" aria-labelledby="eng-tab-routing" hidden>
             <h3>How your answers stay private</h3>
             <p class="eng-plain">Think of a mail carrier who checks your ID and hands your letter to you, instead of leaving it on a table where anyone could pick it up.</p>
-            <dl class="eng-sum"><dt>Problem</dt><dd>Everyone in the meeting can open their own copy of ZoomLens, and someone could tamper with theirs to try to read other people&#39;s answers.</dd><dt>Solution</dt><dd>Who gets an answer isn&#39;t decided in anyone&#39;s copy of ZoomLens. It&#39;s decided on the server, which nobody in the meeting can change. Zoom confirms who&#39;s asking, and the answer goes to that one person only.</dd></dl>
+            <dl class="eng-sum"><dt>Problem</dt><dd>Everyone in the meeting can open their own copy of Prism, and someone could tamper with theirs to try to read other people&#39;s answers.</dd><dt>Solution</dt><dd>Who gets an answer isn&#39;t decided in anyone&#39;s copy of Prism. It&#39;s decided on the server, which nobody in the meeting can change. Zoom confirms who&#39;s asking, and the answer goes to that one person only.</dd></dl>
             <div class="sim sim-privacy" data-sim="privacy">
               <div class="route">
                 <div class="who" data-who="you"><b>You</b><span data-got>Nothing yet</span></div>
@@ -322,7 +332,7 @@
           <div class="eng-panel" role="tabpanel" id="eng-access" aria-labelledby="eng-tab-access" hidden>
             <h3>How it knows when to speak up</h3>
             <p class="eng-plain">Think of glancing up now and then to see whether the slide changed, instead of rereading the whole slide every few seconds.</p>
-            <dl class="eng-sum"><dt>Problem</dt><dd>Announce changes has to notice when the slide changes, and Color Assist has to notice when colors could be confusing. Sending the screen to the AI every few seconds just to check would be slow and expensive.</dd><dt>Solution</dt><dd>ZoomLens keeps a tiny, blurry copy of the screen and compares it every couple of seconds. A moving mouse doesn&#39;t count, but a new slide does, and only then does it ask the AI. For colors, it checks how they would look to someone who is color-blind, and only speaks up when two of them would look alike.</dd></dl>
+            <dl class="eng-sum"><dt>Problem</dt><dd>Announce changes has to notice when the slide changes, and Color Assist has to notice when colors could be confusing. Sending the screen to the AI every few seconds just to check would be slow and expensive.</dd><dt>Solution</dt><dd>Prism keeps a tiny, blurry copy of the screen and compares it every couple of seconds. A moving mouse doesn&#39;t count, but a new slide does, and only then does it ask the AI. For colors, it checks how they would look to someone who is color-blind, and only speaks up when two of them would look alike.</dd></dl>
             <div class="sim sim-colors" data-sim="colors">
               <div class="sim-bar">
                 <div class="sim-seg" role="radiogroup" aria-label="Color vision">
@@ -361,11 +371,11 @@
         <div class="faq-list">
           <details>
             <summary>Can I use it in my own meetings?</summary>
-            <p>Not yet. ZoomLens is in development and runs on a test Zoom account. The source is on <a href="https://github.com/richithareddyy/ZoomLens">GitHub</a>.</p>
+            <p>Not yet. Prism is in development and runs on a test Zoom account. The source is on <a href="https://github.com/richithareddyy/ZoomLens">GitHub</a>.</p>
           </details>
           <details>
             <summary>Does the presenter know I'm asking?</summary>
-            <p>No. ZoomLens does not notify the presenter, and your questions and answers are sent only to you. Whether presenters should be told is the main open question for ethical review.</p>
+            <p>No. Prism does not notify the presenter, and your questions and answers are sent only to you. Whether presenters should be told is the main open question for ethical review.</p>
           </details>
           <details>
             <summary>Can other people in the meeting see my questions?</summary>
@@ -377,7 +387,7 @@
           </details>
           <details>
             <summary>Is the meeting recorded?</summary>
-            <p>No. Only the last few seconds of the screen share are kept, in memory, so an image is ready when you ask. ZoomLens doesn't receive the meeting's audio or transcript at all. Nothing is saved to disk unless a developer turns that on for testing, and anything saved that way is deleted after 24 hours. Details are in the <a href="privacy.html">Privacy Policy</a>.</p>
+            <p>No. Only the last few seconds of the screen share are kept, in memory, so an image is ready when you ask. Prism doesn't receive the meeting's audio or transcript at all. Nothing is kept on disk unless a developer turns that on for testing, and anything saved that way is deleted after 24 hours. Details are in the <a href="privacy.html">Privacy Policy</a>.</p>
           </details>
           <details>
             <summary>Does it work with a screen reader?</summary>
@@ -400,8 +410,8 @@
   <footer class="foot">
     <div class="wrap foot-row">
       <div>
-        <a class="wordmark" href="#top"><span class="glyph" aria-hidden="true"></span><span>Zoom<b>Lens</b></span></a>
-        <p class="foot-tag">Understand what's being shared.</p>
+        <a class="wordmark" href="#top"><span class="glyph" aria-hidden="true"></span><span>Prism</span></a>
+        <p class="foot-tag">See every screen clearly.</p>
       </div>
       <ul class="foot-links">
         <li><a href="guide.html">Guide</a></li>

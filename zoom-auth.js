@@ -12,7 +12,7 @@ const CLIENT_SECRET = process.env.ZM_RTMS_SECRET;
 // Has to match the OAuth Redirect URL in the Marketplace exactly.
 const PUBLIC_URL = process.env.ZOOM_LENS_PUBLIC_URL?.replace(/\/+$/, "");
 if (!PUBLIC_URL) {
-  console.error("ERROR: set ZOOM_LENS_PUBLIC_URL in .env to the server's address, e.g. https://zoomlens.onrender.com");
+  console.error("ERROR: set ZOOM_LENS_PUBLIC_URL in .env to the server's address, e.g. https://prism.onrender.com");
   process.exit(1);
 }
 const REDIRECT_URI = `${PUBLIC_URL}/auth/callback`;

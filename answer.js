@@ -72,9 +72,9 @@ The participant has a color vision deficiency. Never identify anything by its co
 // described the panel back to the user, so the model is told to ignore it.
 const IGNORE_OWN_INTERFACE = `
 
-The image may be a photograph of an entire computer display rather than the shared content alone. If so, it will contain the Zoom meeting window, participant video tiles and name labels, browser tabs and bookmarks, the dock, the menu bar, and a panel titled "ZoomLens" with its own buttons and earlier answers.
+The image may be a photograph of an entire computer display rather than the shared content alone. If so, it will contain the Zoom meeting window, participant video tiles and name labels, browser tabs and bookmarks, the dock, the menu bar, and a panel titled "Prism" with its own buttons and earlier answers.
 
-None of that is the shared content. Ignore all of it, and never mention the ZoomLens panel, its controls, or its own previous answer. Describe only what is being presented.`;
+None of that is the shared content. Ignore all of it, and never mention the Prism panel, its controls, or its own previous answer. Describe only what is being presented.`;
 
 const client = new Anthropic();
 

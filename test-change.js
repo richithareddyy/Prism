@@ -42,7 +42,7 @@ const print = async (boxes, quality) => fingerprint(still(boxes, quality));
 const pct = (x) => `${(x * 100).toFixed(2)}% of cells`;
 
 console.log("\n" + "-".repeat(70));
-console.log("  Zoom Lens, change detection");
+console.log("  Prism, change detection");
 console.log("-".repeat(70) + "\n");
 
 const A = slide(4);

@@ -1,4 +1,4 @@
-// Checks that a meeting's host, and only the host, can turn ZoomLens off for
+// Checks that a meeting's host, and only the host, can turn Prism off for
 // everyone in that meeting, and that turning it off stops everything already
 // running there. Runs the real relay with a fake model and fake watchers.
 //
@@ -55,7 +55,7 @@ const errorFor = (peer, id) => peer.seen.find((m) => m.type === "error" && m.id 
 const answerFor = (peer, id) => peer.seen.find((m) => m.type === "answer" && m.id === id);
 
 console.log("\n" + "-".repeat(70));
-console.log("  ZoomLens, host control");
+console.log("  Prism, host control");
 console.log("-".repeat(70) + "\n");
 
 const host = await connect("m1==", "host");
@@ -70,7 +70,7 @@ check("A participant's panel is not", last(guest, "ready").host === false);
 send(guest, { type: "allow", on: false });
 await wait(150);
 check("A participant who isn't the host is refused", last(guest, "error")?.code === "not_host");
-check("And ZoomLens stays on for the meeting", last(host, "ready").allowed === true);
+check("And Prism stays on for the meeting", last(host, "ready").allowed === true);
 
 // 3. The host turns it off while a participant is mid-request and listening.
 send(guest, { type: "watch", feature: "changes", on: true });

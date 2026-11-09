@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ZoomLens</title>
+  <title>Prism</title>
   <!-- Filled in by the server when Zoom's app context checks out. -->
-  <meta name="zoomlens-ticket" content="">
+  <meta name="prism-ticket" content="">
   <style>
     /* Dark only, because the Zoom client this lives in is. Text colors meet
        WCAG AA (4.5:1) on both surfaces; control outlines meet 3:1. */
@@ -248,11 +248,11 @@
   <header>
     <h1>
       <svg viewBox="0 0 64 64" aria-hidden="true">
-        <path d="M8 20v-8a4 4 0 0 1 4-4h8M44 8h8a4 4 0 0 1 4 4v8M56 44v8a4 4 0 0 1-4 4h-8M20 56h-8a4 4 0 0 1-4-4v-8" fill="none" stroke="#7DB3FF" stroke-width="4" stroke-linecap="round"/>
-        <rect x="18" y="22" width="28" height="20" rx="4" fill="#2D8CFF"/>
-        <path d="M24 29h12M24 35h7" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+        <path d="M4 38 21 30" stroke="#8D97A6" stroke-width="4" stroke-linecap="round"/>
+        <path d="M43 30 60 20M43 30h17M43 30l17 10" fill="none" stroke="#7DB3FF" stroke-width="4" stroke-linecap="round"/>
+        <path d="M32 10 54 50H10Z" fill="#16233D" stroke="#7DB3FF" stroke-width="4" stroke-linejoin="round"/>
       </svg>
-      ZoomLens
+      Prism
     </h1>
     <div class="status" id="state" data-kind="busy" role="status">
       <span class="dot" aria-hidden="true"></span><span id="state-text">Connecting</span>
@@ -262,7 +262,7 @@
   <div class="notice" id="notice" role="alert" hidden></div>
 
   <div class="start" id="start" hidden>
-    <button class="primary" type="button" id="start-btn">Start ZoomLens in this meeting</button>
+    <button class="primary" type="button" id="start-btn">Start Prism in this meeting</button>
     <p class="hint" id="start-hint" role="status"></p>
   </div>
 
@@ -302,7 +302,7 @@
             aria-labelledby="allow-name" aria-describedby="allow-help">
       <span class="track" aria-hidden="true"></span>
       <span>
-        <span class="mode-name" id="allow-name">Allow ZoomLens here</span>
+        <span class="mode-name" id="allow-name">Allow Prism here</span>
         <span class="mode-help" id="allow-help">Off stops it for everyone in this meeting</span>
       </span>
     </button>

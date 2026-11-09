@@ -1,4 +1,4 @@
-# ZoomLens backend. Runs on any host that takes a container; secrets come from
+# Prism backend. Runs on any host that takes a container; secrets come from
 # the host's environment, never the image. See docs/deploy.md.
 # Trixie, because the RTMS SDK needs GLIBCXX_3.4.31, which bookworm lacks.
 FROM node:22-trixie-slim

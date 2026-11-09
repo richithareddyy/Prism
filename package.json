@@ -1,8 +1,8 @@
 {
-  "name": "rtms-quickstart",
+  "name": "prism",
   "version": "1.0.1",
   "type": "module",
-  "description": "Get started with RTMS using Node.JS ",
+  "description": "Prism, a participant-side AI assistant for Zoom meetings. See every screen clearly.",
   "main": "index.js",
   "scripts": {
     "start": "node --env-file-if-exists=.env index.js",
@@ -15,7 +15,7 @@
     "ffmpeg-static": "^5.3.0",
     "ws": "^8.21.3"
   },
-  "author": "Zoom Communications, Inc.",
+  "author": "Richitha Rekula",
   "license": "MIT",
   "allowScripts": {
     "@zoom/rtms@1.1.0": true,

@@ -1,4 +1,4 @@
-# Render Blueprint for the ZoomLens backend: the panel, Zoom's webhooks and the
+# Render Blueprint for the Prism backend: the panel, Zoom's webhooks and the
 # relay, all on one HTTPS address. See docs/deploy.md.
 #
 # Choose a plan that doesn't sleep. Zoom revalidates the webhook endpoint every
@@ -7,7 +7,7 @@
 
 services:
   - type: web
-    name: zoomlens
+    name: prism
     # The Dockerfile, not Render's Node runtime: the RTMS SDK needs a newer
     # system library than some hosts' Node environments have.
     runtime: docker

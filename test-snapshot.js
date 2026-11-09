@@ -36,7 +36,7 @@ fs.mkdirSync(OUT_DIR, { recursive: true });
 
 console.log();
 line();
-console.log("  Zoom Lens, screen to image without writing a file first");
+console.log("  Prism, screen to image without writing a file first");
 console.log(`  ${new Date().toLocaleString()}`);
 console.log(`  replaying ${input} (${(video.length / 1048576).toFixed(1)} MB)`);
 line();

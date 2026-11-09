@@ -57,7 +57,7 @@ function check(name, passed, detail) {
 
 console.log();
 line();
-console.log("  Zoom Lens, participant isolation");
+console.log("  Prism, participant isolation");
 console.log(`  ${new Date().toLocaleString()}`);
 console.log("  Running the real relay with screen sharing stubbed active,");
 console.log("  so requests are accepted rather than refused.");

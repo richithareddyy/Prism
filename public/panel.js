@@ -31,7 +31,7 @@ let socket = null;
 let identified = false;
 let streamActive = false;
 let subscribed = false;     // features re-sent on this connection
-let allowed = true;         // false once the host turns ZoomLens off here
+let allowed = true;         // false once the host turns Prism off here
 let isHost = false;
 let pending = null;         // { id, mode, question } in flight
 let hasAnswer = false;      // whether a follow-up has anything to follow
@@ -44,7 +44,8 @@ let lastNote = null;
 // What this participant has switched on. Color Assist is remembered on this
 // device, since someone who needs it needs it in every meeting.
 const features = { changes: false, color: false };
-try { features.color = localStorage.getItem("zoomlens-color") === "on"; } catch {}
+// Read the old key too, so the rename doesn't switch it off for anyone.
+try { features.color = (localStorage.getItem("prism-color") ?? localStorage.getItem("zoomlens-color")) === "on"; } catch {}
 
 const TITLES = {
   describe: "Description", explain: "Explanation", changed: "What changed",
@@ -72,25 +73,25 @@ function paint() {
   if (pending) {
     [kind, text] = ["busy", "Analyzing"];
   } else if (!open) {
-    [kind, text] = attempt > 2 ? ["err", "Can't reach ZoomLens"] : ["busy", "Connecting"];
-    empty = attempt > 2 ? "ZoomLens can't reach its server. It keeps trying." : "Connecting…";
+    [kind, text] = attempt > 2 ? ["err", "Can't reach Prism"] : ["busy", "Connecting"];
+    empty = attempt > 2 ? "Prism can't reach its server. It keeps trying." : "Connecting…";
   } else if (zoomState === "outside") {
     [kind, text] = ["warn", "Development mode"];
-    empty = "Open ZoomLens in a Zoom meeting to read a shared screen.";
+    empty = "Open Prism in a Zoom meeting to read a shared screen.";
   } else if (zoomState === "elsewhere") {
     [kind, text] = ["idle", "Not in a meeting"];
-    empty = "Open ZoomLens from inside a meeting to use it.";
+    empty = "Open Prism from inside a meeting to use it.";
   } else if (zoomState === "refused" || !identified) {
     [kind, text] = ["err", "Not connected"];
-    empty = "ZoomLens isn't connected to this meeting.";
+    empty = "Prism isn't connected to this meeting.";
   } else if (!allowed) {
     [kind, text] = ["idle", "Off for this meeting"];
-    empty = "The host has turned off ZoomLens for this meeting.";
+    empty = "The host has turned off Prism for this meeting.";
   } else if (!streamActive) {
     [kind, text] = ["idle", "Not started"];
     empty = canStart
-      ? "ZoomLens can't see this meeting's shared screen yet. Start it above."
-      : "ZoomLens can't see this meeting's shared screen yet. Ask the host to start ZoomLens.";
+      ? "Prism can't see this meeting's shared screen yet. Start it above."
+      : "Prism can't see this meeting's shared screen yet. Ask the host to start Prism.";
   } else {
     [kind, text] = ["ok", "Ready"];
     empty = "Press Describe screen for a summary of what's shared, or ask a question below.";
@@ -205,6 +206,17 @@ function newTurn(className) {
   return turn;
 }
 
+// The Color Assist note and the Explain colors button take their room from the
+// answers. Someone reading the end of the thread stays at the end, instead of
+// the newest answer slipping out of view.
+let threadHeight = 0;
+new ResizeObserver(() => {
+  const t = ui.thread;
+  const wasAtEnd = t.scrollHeight - t.scrollTop - threadHeight < 8;
+  if (t.clientHeight < threadHeight && wasAtEnd) t.scrollTop = t.scrollHeight;
+  threadHeight = t.clientHeight;
+}).observe(ui.thread);
+
 // Earlier answers step back so the newest is the one the eye lands on.
 function dimOlder(except) {
   for (const t of ui.thread.querySelectorAll(".turn:not(.older)")) {
@@ -266,7 +278,9 @@ function settle(title, text, { source = null, failed = false, retry = null } = {
   const pad = parseFloat(getComputedStyle(ui.thread).paddingTop) || 0;
   ui.thread.scrollTo({
     top: Math.max(0, turn.offsetTop - ui.thread.offsetTop - pad),
-    behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+    // A hidden page never runs a smooth scroll, so an answer that arrives while
+    // the panel is out of sight would be waiting off screen.
+    behavior: document.hidden || matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
   });
 }
 
@@ -346,7 +360,7 @@ async function getIdentity() {
     } else {
       zoomState = "refused";
       diag("dZoom", `config failed: ${message}`);
-      showNotice("Zoom declined the connection", "ZoomLens could not start in this meeting.");
+      showNotice("Zoom declined the connection", "Prism could not start in this meeting.");
     }
     return null;
   }
@@ -388,20 +402,20 @@ async function getIdentity() {
   return { meetingUUID: meeting.meetingUUID, role: user?.role ?? null };
 }
 
-// Asks Zoom to start sending this meeting's screen share to ZoomLens. A host
+// Asks Zoom to start sending this meeting's screen share to Prism. A host
 // starts it directly; for anyone else Zoom asks the host to allow it. Either
 // way the server learns it has started from Zoom, not from here.
 async function startStream() {
   if (starting) return;
   starting = true;
   const host = identity?.role === "host" || identity?.role === "coHost";
-  ui.startHint.textContent = host ? "Starting…" : "Asking the host to allow ZoomLens…";
+  ui.startHint.textContent = host ? "Starting…" : "Asking the host to allow Prism…";
   paint();
   try {
     await zoomSdk.callZoomApi("startRTMS");
   } catch (err) {
     starting = false;
-    ui.startHint.textContent = "Zoom didn't start ZoomLens. The host may need to allow it, or turn on " +
+    ui.startHint.textContent = "Zoom didn't start Prism. The host may need to allow it, or turn on " +
       "sharing meeting content with apps in their Zoom settings.";
     diag("dZoom", `startRTMS failed: ${String(err?.message ?? err)}`);
     paint();
@@ -448,7 +462,7 @@ function connect() {
     // so the server can notice if the SDK disagrees with Zoom's context.
     socket.send(JSON.stringify({
       type: "hello",
-      ticket: document.querySelector('meta[name="zoomlens-ticket"]')?.content || null,
+      ticket: document.querySelector('meta[name="prism-ticket"]')?.content || null,
       meetingUUID: identity?.meetingUUID ?? null,
     }));
 
@@ -477,9 +491,9 @@ function connect() {
         const was = allowed;
         allowed = msg.allowed !== false;
         if (identified && was !== allowed) {
-          addUpdate(allowed ? "ZoomLens is back on" : "ZoomLens turned off",
-                    allowed ? "The host turned ZoomLens back on for this meeting."
-                            : "The host turned off ZoomLens for this meeting.");
+          addUpdate(allowed ? "Prism is back on" : "Prism turned off",
+                    allowed ? "The host turned Prism back on for this meeting."
+                            : "The host turned off Prism for this meeting.");
           // Settings come back on by themselves when the host allows it again.
           if (!allowed) subscribed = false;
         }
@@ -487,12 +501,12 @@ function connect() {
         // Inside a meeting but not verified: the page needs a fresh load from
         // Zoom, for example after the server restarted and forgot its tickets.
         if (!identified && zoomState === "ok") {
-          showNotice("This panel couldn't be verified", "Reopen ZoomLens from the meeting's Apps menu.");
+          showNotice("This panel couldn't be verified", "Reopen Prism from the meeting's Apps menu.");
         } else if (identified) {
           ui.notice.hidden = true;
         }
         // The server forgets settings on disconnect, and when the host turns
-        // ZoomLens off, so they are sent again once per connection and once
+        // Prism off, so they are sent again once per connection and once
         // after it is allowed again. Ready also comes when sharing starts or stops.
         if (identified && allowed && !subscribed) {
           subscribed = true;
@@ -536,7 +550,7 @@ function connect() {
             retry: canRetry ? () => send(mode, question, { again: true }) : null,
           });
         } else {
-          addUpdate("ZoomLens", msg.message, "failed");
+          addUpdate("Prism", msg.message, "failed");
         }
         break;
       }
@@ -607,7 +621,7 @@ for (const button of ui.switches) {
     const { feature } = button.dataset;
     features[feature] = !features[feature];
     if (feature === "color") {
-      try { localStorage.setItem("zoomlens-color", features.color ? "on" : "off"); } catch {}
+      try { localStorage.setItem("prism-color", features.color ? "on" : "off"); } catch {}
     }
     socket.send(JSON.stringify({ type: "watch", feature, on: features[feature] }));
     paint();

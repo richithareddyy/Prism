@@ -106,7 +106,7 @@ export function createRelay(httpServer, {
     return true;
   }
 
-  // Meetings whose host has turned ZoomLens off. In memory, so a restart
+  // Meetings whose host has turned Prism off. In memory, so a restart
   // turns it back on; the host's panel shows the switch either way.
   const blocked = new Set();
 
@@ -132,14 +132,14 @@ export function createRelay(httpServer, {
     for (const session of inMeeting(meetingUUID)) {
       if (!allowed) {
         for (const id of [...session.pending.keys()]) {
-          fail(session.id, "host_disabled", "The host turned off ZoomLens for this meeting.", id);
+          fail(session.id, "host_disabled", "The host turned off Prism for this meeting.", id);
         }
         session.features.clear();
       }
       sendTo(session.id, readyFor(session));
     }
     if (!allowed) for (const feature of Object.keys(watchers)) watchers[feature].stop(meetingUUID);
-    log(`RELAY the host turned ZoomLens ${allowed ? "on" : "off"} in meeting ${String(meetingUUID).slice(0, 12)}...`);
+    log(`RELAY the host turned Prism ${allowed ? "on" : "off"} in meeting ${String(meetingUUID).slice(0, 12)}...`);
   }
 
   const listeners = (feature, meetingUUID) =>
@@ -304,7 +304,7 @@ export function createRelay(httpServer, {
             return;
           }
           if (blocked.has(session.meetingUUID)) {
-            fail(session.id, "host_disabled", "The host turned off ZoomLens for this meeting.", id);
+            fail(session.id, "host_disabled", "The host turned off Prism for this meeting.", id);
             return;
           }
           if (!MODES.includes(mode)) {
@@ -378,7 +378,7 @@ export function createRelay(httpServer, {
             return;
           }
           if (msg.on && blocked.has(session.meetingUUID)) {
-            fail(session.id, "host_disabled", "The host turned off ZoomLens for this meeting.");
+            fail(session.id, "host_disabled", "The host turned off Prism for this meeting.");
             return;
           }
           setFeature(session, feature, Boolean(msg.on));
@@ -387,7 +387,7 @@ export function createRelay(httpServer, {
 
         case "allow":
           if (!session.identified || !isHost(session.meetingUUID, session.participantUUID)) {
-            fail(session.id, "not_host", "Only the meeting's host can turn ZoomLens on or off.");
+            fail(session.id, "not_host", "Only the meeting's host can turn Prism on or off.");
             return;
           }
           setAllowed(session.meetingUUID, Boolean(msg.on));

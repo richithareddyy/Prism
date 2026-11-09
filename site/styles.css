@@ -231,7 +231,7 @@ button.ctl:hover { background: #2A2A2A; }
 .foot { border-top: 1px solid var(--line); padding: 40px 0 28px; }
 .foot-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; }
 .foot-tag { margin: 6px 0 0; color: var(--text-2); font-size: 0.92rem; }
-.foot-links { display: flex; gap: 24px; list-style: none; margin: 0; padding: 0; }
+.foot-links { display: flex; flex-wrap: wrap; gap: 10px 24px; list-style: none; margin: 0; padding: 0; }
 .foot-links a { color: var(--text-2); text-decoration: none; font-size: 0.92rem; }
 .foot-links a:hover { color: var(--text); }
 .foot-base { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 0.82rem; color: var(--text-2); }
@@ -253,7 +253,7 @@ button.ctl:hover { background: #2A2A2A; }
 .screen .spot:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
 .screen td, .screen th, .screen .ctx, .screen .spot { transition: opacity .25s, background .2s; }
 
-/* While ZoomLens is answering about a region: light it, quiet the rest */
+/* While Prism is answering about a region: light it, quiet the rest */
 .screen.focusing :is(td, th, .ctx, .spot, .pair):not(.lit) { opacity: .45; }
 .screen .lit { background: var(--blue-wash); }
 .screen .spot.lit, .screen .block.lit { box-shadow: 0 0 0 2px var(--blue); }
@@ -272,7 +272,7 @@ button.ctl:hover { background: #2A2A2A; }
 .slide-title h4 { margin: 0; }
 
 /* ===========================================================================
-   The ZoomLens panel, matched to the real product (public/index.html).
+   The Prism panel, matched to the real product (public/index.html).
    Same tokens, same structure, same labels. Scoped so it does not touch the
    site's own light palette.
 =========================================================================== */
@@ -358,7 +358,7 @@ button.ctl:hover { background: #2A2A2A; }
 .zl-field button { flex: none; width: 24px; height: 24px; display: grid; place-items: center; border: none; border-radius: 6px; background: var(--zl-brand); color: #fff; font-size: 0.8rem; cursor: pointer; }
 .zl-hint { margin: 5px 2px 0; font-size: 0.64rem; color: var(--zl-text-3); }
 
-/* "Try ZoomLens" draws the eye to where to start, once, without a modal */
+/* "Try Prism" draws the eye to where to start, once, without a modal */
 
 /* Meeting controls -------------------------------------------------------- */
 .ctl { position: relative; display: inline-flex; align-items: center; gap: 3px; }
@@ -902,7 +902,7 @@ details.more h4 { margin: 18px 0 0; font-size: 0.95rem; }
   .route { grid-template-columns: 1fr; }
 }
 
-/* The logo where ZoomLens itself appears */
+/* The logo where Prism itself appears */
 .zl-title { display: flex; align-items: center; gap: 7px; }
 .glyph-panel { width: 17px; height: 17px; background-image: url(mark-dark.svg); }
 .demo-labels span:last-child::before {
@@ -911,7 +911,7 @@ details.more h4 { margin: 18px 0 0; font-size: 0.95rem; }
 }
 
 /* Behind the headline: a barely-there shared screen, and one area that
-   ZoomLens has in focus. Texture, not content; nothing in it is readable. */
+   Prism has in focus. Texture, not content; nothing in it is readable. */
 .hero { position: relative; overflow: hidden; }
 .hero > .wrap { position: relative; z-index: 1; }
 /* One fixed layer behind the whole page; content sits above it. */

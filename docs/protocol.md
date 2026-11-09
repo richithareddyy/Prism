@@ -1,4 +1,4 @@
-# Zoom Lens message protocol
+# Prism message protocol
 
 Version 1.
 
@@ -19,7 +19,7 @@ two sessions and they are treated as unrelated.
 
 ## Why identity is in the protocol
 
-Zoom Lens shows each participant only their own answers. The presenter is never
+Prism shows each participant only their own answers. The presenter is never
 told the tool is in use. That guarantee has to be enforced on the backend,
 because anything enforced only in the panel can be bypassed by whoever is
 running the panel.
@@ -115,7 +115,7 @@ again.
 
 ### `allow`
 
-The host turning ZoomLens on or off for the whole meeting.
+The host turning Prism on or off for the whole meeting.
 
 ```json
 { "type": "allow", "on": false }
@@ -159,7 +159,7 @@ participant, and later `ready` messages leave it out.
 this meeting. The panel uses it to explain why a request would return nothing,
 rather than letting the participant press a control that cannot succeed.
 
-`allowed` is false while the meeting's host has turned ZoomLens off. `host` is
+`allowed` is false while the meeting's host has turned Prism off. `host` is
 true only for the host: the user Zoom's signed `meeting.rtms_started` event
 names as having started the stream, when it also says that user is the
 original host. `ready` is sent again whenever either changes.
@@ -232,7 +232,7 @@ requests, so an update never blocks a question.
 | `no_stream` | No screen share is being captured for this meeting |
 | `bad_request` | Malformed message, or an `ask` or `followup` with no question |
 | `rate_limited` | Too many requests from this participant, by gap or daily ceiling |
-| `host_disabled` | The meeting's host has turned ZoomLens off |
+| `host_disabled` | The meeting's host has turned Prism off |
 | `not_host` | `allow` from someone other than the host |
 | `internal` | Something failed on the backend |
 

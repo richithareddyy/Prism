@@ -17,7 +17,7 @@ export async function decodeToJpeg(clip) {
 
   // With -update, ffmpeg overwrites one file per decoded frame, leaving the last
   // frame when it finishes. A pipe would give several JPEGs concatenated.
-  const out = path.join(os.tmpdir(), `zoomlens-${process.pid}-${Date.now()}.jpg`);
+  const out = path.join(os.tmpdir(), `prism-${process.pid}-${Date.now()}.jpg`);
 
   try {
     await new Promise((resolve, reject) => {

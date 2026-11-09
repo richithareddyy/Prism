@@ -7,7 +7,7 @@ Two switches in the panel, each private to the participant who turns it on:
 
 Answers land in the panel's thread, which is an ARIA live log. A screen reader
 announces each one as it arrives without moving focus. The switches are
-buttons with `aria-pressed`. Nothing is spoken by Zoom Lens itself, so the
+buttons with `aria-pressed`. Nothing is spoken by Prism itself, so the
 participant's own screen reader, voice and speed apply.
 
 ## Screen changes

@@ -1,6 +1,8 @@
-# ZoomLens
+# Prism
 
-You join a meeting late, someone is sharing a dense chart, and you'd rather not interrupt everyone to ask what it means. ZoomLens is a panel inside Zoom where you can ask about the shared screen, and only you see the answer.
+**See every screen clearly.**
+
+You join a meeting late, someone is sharing a dense chart, and you'd rather not interrupt everyone to ask what it means. Prism is a panel inside Zoom where you can ask about the shared screen, and only you see the answer.
 
 I'm building it for the Next Lab Zoom Fellowship at Arizona State University. The [project site](https://zoomlens.vercel.app) has a demo with scripted answers.
 

@@ -2,37 +2,53 @@
 //
 // Connects the way the panel does, identifies itself, asks, and prints whatever
 // comes back. This is the whole chain except Zoom itself: relay, frame buffer,
-// decode, model, and the addressed reply.
+// decode, model, and the addressed reply. The server only trusts a ticket it
+// issued for a Zoom app context, so this seals one with the app's own secret,
+// as Zoom would, and loads the panel with it first.
 //
-//   node test-answer.js [describe|explain]
+//   node --env-file=.env test-answer.js [describe|explain]
 
 import WebSocket from "ws";
+import { sealAppContext } from "./trust.js";
 
 const mode = process.argv[2] || "describe";
-const URL = "ws://localhost:8080/ws";
+const PORT = Number(process.env.ZM_RTMS_PORT || process.env.PORT) || 8080;
 const MEETING = "test-meeting==";
+
+if (!process.env.ZM_RTMS_SECRET) {
+  console.log("\n  ZM_RTMS_SECRET isn't set. Run with: node --env-file=.env test-answer.js\n");
+  process.exit(1);
+}
 
 const line = () => console.log("-".repeat(74));
 
 console.log();
 line();
-console.log(`  Zoom Lens, request to answer (${mode})`);
+console.log(`  Prism, request to answer (${mode})`);
 console.log(`  ${new Date().toLocaleString()}`);
 line();
 
-const ws = new WebSocket(URL);
+let ticket = null;
+try {
+  const context = { typ: "meeting", uid: "p-test", mid: MEETING, ts: Date.now(), exp: Date.now() + 600000 };
+  const panel = await fetch(`http://localhost:${PORT}/`, {
+    headers: { "x-zoom-app-context": sealAppContext(context, process.env.ZM_RTMS_SECRET) },
+  });
+  ticket = (await panel.text()).match(/name="prism-ticket" content="([^"]*)"/)?.[1] || null;
+} catch (e) {
+  console.log(`\n  could not load the panel: ${e.message}`);
+  console.log("  Is the server running? npm start\n");
+  process.exit(1);
+}
+
+const ws = new WebSocket(`ws://localhost:${PORT}/ws`);
 const started = Date.now();
 let answered = false;
 
 const done = (code) => { ws.close(); process.exit(code); };
 
 ws.on("open", () => {
-  ws.send(JSON.stringify({
-    type: "hello",
-    meetingUUID: MEETING,
-    participantUUID: "p-test",
-    screenName: "Test Participant",
-  }));
+  ws.send(JSON.stringify({ type: "hello", ticket, meetingUUID: MEETING }));
 });
 
 ws.on("message", (raw) => {

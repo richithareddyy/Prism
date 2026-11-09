@@ -1,33 +1,43 @@
-# Preparing ZoomLens for the Zoom App Marketplace
+# Preparing Prism for the Zoom App Marketplace
 
-What a Marketplace submission needs, what ZoomLens already has, and what is
+What a Marketplace submission needs, what Prism already has, and what is
 still open. Zoom requirements are from its developer documentation as of
 October 2026; check the Marketplace build flow, which lists anything missing.
 
 ## The listing
 
-**Name.** Zoom's App Name rules don't allow "Zoom" or a variation of it in an
-app name, except to show compatibility, as in "Acme for Zoom". "ZoomLens"
-will probably have to change for the listing; the new name is still to be
-chosen. The website and repository can keep theirs.
+**Name.** Prism. Zoom's App Name rules don't allow "Zoom" or a variation of it
+in an app name, except to show compatibility, as in "Acme for Zoom", which is
+why the project moved off its first name, ZoomLens. "Prism" is a common word,
+so search the Marketplace for it before submitting; "Prism for Zoom" is the
+fallback if the plain name is taken. The website address and repository still
+use the old name.
 
-**Short description.** Ask AI about whatever is being shared in your meeting,
-privately, without interrupting.
+**Tagline.** See every screen clearly.
+
+**Icon.** The square Prism mark, 512 or 1024 px on a transparent background,
+kept with the brand files rather than in this repository. It is the same
+drawing as `site/mark.svg`, so render that if the files aren't to hand. Check
+the size the Marketplace form asks for when uploading.
+
+**Short description.** Privately ask AI about whatever is being shared in your
+meeting, without interrupting.
 
 **Long description.**
-ZoomLens is a private panel for Zoom meetings. When someone shares their
-screen, press Describe screen for a summary, Explain for what it means, or
-What changed? to catch up after looking away, and ask follow-up questions in
-your own words. Answers are shown only to you.
+Prism is a participant-side AI assistant for Zoom meetings. When someone
+shares their screen, press Describe screen for a summary, Explain for what it
+means, or What changed? to catch up after looking away, and ask follow-up
+questions in your own words. Answers are shown only to you.
 
 Two accessibility modes help people who can't rely on seeing the screen.
 Announce changes describes the shared screen when it changes, for screen
 reader users. Color Assist explains anything shown only by color, for people
 with color vision deficiencies.
 
-ZoomLens uses only the meeting's screen share, keeps it in memory for seconds,
-and saves nothing. Pictures of the shared screen and your questions are sent
-to Anthropic's AI to produce answers.
+Prism uses only the meeting's screen share and keeps the last few seconds of
+it in memory. Pictures of the shared screen and your questions are sent to
+Anthropic's AI to produce answers. Prism is an independent student project; it
+isn't made or endorsed by Zoom.
 
 **URLs.**
 
@@ -50,9 +60,9 @@ or a `<meta>` tag. The values come from the Marketplace once the URLs are in.
 | Surface | Meetings | The panel opens in meetings |
 | Home URL | `https://SERVER` | Serves the panel |
 | Domain Allow List | `SERVER` | The panel loads from, and connects back to, the server |
-| OAuth Redirect URL | `https://SERVER/auth/callback` | Shows "ZoomLens is added". The code isn't exchanged: ZoomLens calls no Zoom REST API |
+| OAuth Redirect URL | `https://SERVER/auth/callback` | Shows "Prism is added". The code isn't exchanged: Prism calls no Zoom REST API |
 | Event subscription | RTMS Started, RTMS Stopped, to `https://SERVER` | How the server learns to join and leave a meeting's stream |
-| Deauthorization Notification URL | `https://SERVER/zoom/deauthorized` | Zoom calls it when someone removes the app. ZoomLens keeps no account data, so it revokes that person's tickets and logs the notice; one without a valid signature changes nothing |
+| Deauthorization Notification URL | `https://SERVER/zoom/deauthorized` | Zoom calls it when someone removes the app. Prism keeps no account data, so it revokes that person's tickets and logs the notice; one without a valid signature changes nothing |
 | Zoom App SDK APIs | `getMeetingUUID`, `getUserContext`, `startRTMS` | See below |
 
 `SERVER` is the hosted address from `docs/deploy.md`.
@@ -62,12 +72,12 @@ or a `<meta>` tag. The values come from the Marketplace once the URLs are in.
 Keep only these. Every scope needs a description in the submission, and an
 unused one is a reason for rejection.
 
-| Scope | Why ZoomLens needs it |
+| Scope | Why Prism needs it |
 |---|---|
 | The RTMS screen-share scope (search "RTMS" under Add Scopes) | To receive the meeting's screen share, which is what every answer is about |
 | The in-meeting Zoom Apps scope the Marketplace adds with Zoom App SDK | To open as a panel in the meeting |
 
-Remove these if the app has them. ZoomLens no longer subscribes to them, and
+Remove these if the app has them. Prism no longer subscribes to them, and
 requesting them would ask users to share data the app doesn't use:
 
 - `meeting:read:meeting_audio`
@@ -95,18 +105,18 @@ these calls (`trust.js`).
   join, so they can see that answers stay private.
 - Zoom desktop client 6.5.5 or later, which the in-meeting RTMS APIs need.
 - The host account's setting that lets apps access meeting content turned on.
-- Nothing else: ZoomLens has no sign-up, accounts or roles of its own.
+- Nothing else: Prism has no sign-up, accounts or roles of its own.
 
 ### Release notes for the reviewer (test plan)
 
 Paste into the submission, with the real URLs.
 
-1. **Add the app.** Authorize ZoomLens with the host account. The browser
-   shows "ZoomLens is added to your Zoom account".
+1. **Add the app.** Authorize Prism with the host account. The browser
+   shows "Prism is added to your Zoom account".
 2. **Open it.** Start a meeting with the host account, then join it from the
-   second account. Both open **Apps**, then **ZoomLens**. Each panel says
+   second account. Both open **Apps**, then **Prism**. Each panel says
    **Not started**.
-3. **Start it.** In the host's panel, press **Start ZoomLens in this meeting**.
+3. **Start it.** In the host's panel, press **Start Prism in this meeting**.
    Both panels change to **Ready** within a few seconds. (Pressed from the
    second account instead, Zoom asks the host to allow it.)
 4. **Share a screen.** From the host, share any page with a table or chart,
@@ -123,15 +133,15 @@ Paste into the submission, with the real URLs.
 9. **Color Assist.** Share a page whose meaning is only in color, such as a
    red, amber and green status column, and turn on Color Assist. A note
    appears, and **Explain colors** says what each color means.
-10. **Host switch.** In the host's panel, turn **Allow ZoomLens here** off.
-    The second account's panel says the host turned ZoomLens off, and its
+10. **Host switch.** In the host's panel, turn **Allow Prism here** off.
+    The second account's panel says the host turned Prism off, and its
     buttons stop working. Turn it back on.
 11. **Stop.** Stop sharing and press **Describe screen**: the panel says
     there is no screen to look at, rather than describing the old one. End
-    the meeting; ZoomLens leaves with it.
+    the meeting; Prism leaves with it.
 12. **Remove the app** from the account in the Marketplace. Zoom notifies the
     deauthorization URL, and the server log shows `DEAUTHORIZED`. Nothing is
-    left to delete: ZoomLens keeps no account data.
+    left to delete: Prism keeps no account data.
 
 ## Readiness checklist
 
@@ -146,7 +156,7 @@ Paste into the submission, with the real URLs.
 | Privacy Policy and Terms of Use | Written; live once the site deploys |
 | Support and Guide pages | Done |
 | Deauthorization URL | Built and tested with signed and unsigned notices; Zoom only sends them to published apps |
-| App name allowed by Zoom | Needs a decision |
+| App name allowed by Zoom | Prism, chosen Nov 2026; check it isn't taken in the Marketplace, and rename the app there |
 | Domain verification | Needs the values from the Marketplace |
 | Production client ID in the submission | Needs the Marketplace |
 | Two test accounts for reviewers | Needs setting up |
@@ -157,7 +167,7 @@ Paste into the submission, with the real URLs.
 
 1. The hosted server, deployed and validated in the Marketplace.
 2. A live end-to-end test through the Start button on that server.
-3. An app name Zoom accepts.
+3. Renaming the Marketplace app to Prism, once the name is confirmed free.
 4. Domain verification for the listing URLs.
 5. Confirmation of credits, the publishing account, and any approval needed
    from Next Lab or ASU.

@@ -92,7 +92,7 @@ const updates = (peer, feature = "changes") =>
 const last = (peer, type) => peer.seen.filter((m) => m.type === type).at(-1);
 
 console.log("\n" + "-".repeat(70));
-console.log("  Zoom Lens, reading out screen changes");
+console.log("  Prism, reading out screen changes");
 console.log("-".repeat(70) + "\n");
 
 const listener = await connect("m1==", "p-listener");

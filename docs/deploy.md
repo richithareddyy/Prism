@@ -1,18 +1,18 @@
-# Putting ZoomLens on a server
+# Putting Prism on a server
 
-ZoomLens needs one address that is always up. Zoom sends its webhooks there,
+Prism needs one address that is always up. Zoom sends its webhooks there,
 the panel loads from it, and the panel's WebSocket connects back to it.
 
 A laptop behind ngrok isn't enough, and not only because it sleeps. Zoom
 revalidates the webhook endpoint every 72 hours and expects an answer within
 3 seconds. After six failed revalidations in a row it stops sending events and
-switches the subscription off, which is how events stopped reaching ZoomLens in
+switches the subscription off, which is how events stopped reaching Prism in
 September. An always-on server answers every revalidation.
 
 ## What the server needs
 
 - **The container in `Dockerfile`, on x64.** It is the supported way to run
-  ZoomLens on a server, and it has been run end to end on Linux: the RTMS SDK,
+  Prism on a server, and it has been run end to end on Linux: the RTMS SDK,
   ffmpeg decoding, webhooks and the panel. It isn't just a convenience. The RTMS
   SDK needs `GLIBCXX_3.4.31`, which Debian bookworm and other older systems
   lack, so on those the server stops at startup with `GLIBCXX_3.4.31 not found`.
@@ -30,13 +30,13 @@ it, so that no meeting details are written to disk.
 The repository has a Blueprint, `render.yaml`.
 
 1. On render.com, sign in with GitHub, then **New**, then **Blueprint**, and
-   pick the ZoomLens repository.
+   pick the Prism repository.
 2. Render asks for the secret values. Copy them from your local `.env`:
    `ZM_RTMS_CLIENT`, `ZM_RTMS_SECRET`, `ZM_RTMS_SECRET_TOKEN`,
    `ANTHROPIC_API_KEY` and `VISION_MODEL`. They are stored by Render and never
    committed. The testing settings are already fixed at `0`.
 3. Choose a plan that doesn't sleep, and create it.
-4. Note the address, which looks like `https://zoomlens.onrender.com`, and
+4. Note the address, which looks like `https://prism.onrender.com`, and
    check it:
 
 ```
@@ -52,7 +52,7 @@ variables above.
 
 ## Pointing Zoom at it
 
-In the Marketplace, on the ZoomLens app, replace the tunnel address everywhere
+In the Marketplace, on the Prism app, replace the tunnel address everywhere
 it appears. Missing one is the usual way this goes wrong.
 
 | Where | Value |
@@ -67,9 +67,10 @@ it appears. Missing one is the usual way this goes wrong.
 Then, in the event subscription:
 
 1. Make sure the events are **RTMS Started** and **RTMS Stopped**.
-2. Press **Validate**. The server log shows `VALIDATION passed`, and
-   `/healthz` shows the time under `lastValidation`.
-3. Save.
+2. Save. Zoom checks a new endpoint URL when it is saved, and the server log
+   shows `VALIDATION passed`, with the time under `lastValidation` in
+   `/healthz`. The edit form in November 2026 had no separate Validate
+   button; if yours has one, press it before saving.
 
 Under Surface, In-client App Features, make sure **Zoom App SDK** is on and
 **startRTMS** is in its APIs, so the panel's Start button works. It needs the
@@ -77,8 +78,8 @@ Zoom desktop client 6.5.5 or later.
 
 ## Checking the whole chain
 
-1. Start a meeting, share your screen, and open ZoomLens from **Apps**.
-2. The panel says **Not started**. Press **Start ZoomLens in this meeting**.
+1. Start a meeting, share your screen, and open Prism from **Apps**.
+2. The panel says **Not started**. Press **Start Prism in this meeting**.
    As host it starts straight away; for anyone else, Zoom asks the host.
 3. The server log shows `Webhook: meeting.rtms_started`, then
    `JOIN CONFIRMED`, then `DESKSHARE frame #1`, and the panel says **Ready**.

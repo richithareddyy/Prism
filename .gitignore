@@ -24,7 +24,7 @@ lib/linux-x64/*
 *.py
 *.pyi
 
-# Zoom Lens. The rule above comes from the Zoom sample this project started
+# Prism. The rule above comes from the Zoom sample this project started
 # from and excludes every .js file except index.js, which would leave nearly
 # all of this project untracked. These are the application's own files.
 !relay.js

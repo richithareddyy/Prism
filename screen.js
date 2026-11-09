@@ -55,8 +55,8 @@ export async function captureLocalScreen() {
 
   const started = Date.now();
   const stamp = `${process.pid}-${Date.now()}`;
-  const raw = path.join(os.tmpdir(), `zoomlens-screen-${stamp}.png`);
-  const out = path.join(os.tmpdir(), `zoomlens-screen-${stamp}.jpg`);
+  const raw = path.join(os.tmpdir(), `prism-screen-${stamp}.png`);
+  const out = path.join(os.tmpdir(), `prism-screen-${stamp}.jpg`);
 
   try {
     // -x: no shutter sound

@@ -330,7 +330,7 @@ app.get(["/", "/index.html"], (req, res) => {
     }
   }
   const html = fs.readFileSync(PANEL_HTML, "utf8")
-    .replace('<meta name="zoomlens-ticket" content="">', `<meta name="zoomlens-ticket" content="${ticket}">`);
+    .replace('<meta name="prism-ticket" content="">', `<meta name="prism-ticket" content="${ticket}">`);
   res.set("Cache-Control", "no-store").type("html").send(html);
 });
 
@@ -347,18 +347,18 @@ app.get("/healthz", (req, res) => {
   });
 });
 
-// Where Zoom sends someone after they add the app. ZoomLens calls no Zoom
+// Where Zoom sends someone after they add the app. Prism calls no Zoom
 // REST API, so the authorization code is not exchanged, kept or logged.
 app.get("/auth/callback", (req, res) => {
   res.set("Cache-Control", "no-store").type("html").send(INSTALLED_HTML);
 });
 
 const INSTALLED_HTML = `<!doctype html><html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1"><title>ZoomLens is added</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Prism is added</title>
 <style>body{font:16px/1.5 system-ui,sans-serif;max-width:32rem;margin:15vh auto;padding:0 1.25rem;color:#1f2329}
 h1{font-size:1.4rem}a{color:#0b5cff}</style></head><body>
-<h1>ZoomLens is added to your Zoom account</h1>
-<p>Join or start a meeting, open <b>Apps</b> in the meeting toolbar, and choose <b>ZoomLens</b>.</p>
+<h1>Prism is added to your Zoom account</h1>
+<p>Join or start a meeting, open <b>Apps</b> in the meeting toolbar, and choose <b>Prism</b>.</p>
 <p><a href="https://zoomlens.vercel.app/privacy.html">Privacy Policy</a> · <a href="https://zoomlens.vercel.app/terms.html">Terms of Use</a></p>
 </body></html>`;
 
@@ -441,7 +441,7 @@ app.post("/", (req, res) => {
 });
 
 // The Marketplace's deauthorization URL, called when someone removes the app.
-// ZoomLens keeps no account data; the only thing to undo is that person's
+// Prism keeps no account data; the only thing to undo is that person's
 // tickets, so no panel can connect as them again. Developers report these
 // notices sometimes arriving unsigned. One is acknowledged but changes
 // nothing, since acting on it would let anyone revoke someone else's tickets.
@@ -462,7 +462,7 @@ app.post("/zoom/deauthorized", (req, res) => {
     return;
   }
   const n = typeof userId === "string" ? tickets.revokeUser(userId) : 0;
-  log(`DEAUTHORIZED: someone removed ZoomLens; ${n} ticket(s) revoked, no stored data to delete`);
+  log(`DEAUTHORIZED: someone removed Prism; ${n} ticket(s) revoked, no stored data to delete`);
 });
 
 // The WebSocket relay shares the port, so the panel connects back to the same address.
@@ -536,7 +536,7 @@ const missing = ["ZM_RTMS_CLIENT", "ZM_RTMS_SECRET", "ZM_RTMS_SECRET_TOKEN", "AN
   .filter((name) => !process.env[name]);
 
 server.listen(PORT, () => {
-  log(`Zoom Lens is up on port ${PORT}`);
+  log(`Prism is up on port ${PORT}`);
   log(`   panel   GET  /`);
   log(`   webhook POST /`);
   log(`   relay   WS   /ws`);

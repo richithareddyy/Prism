@@ -901,7 +901,7 @@ function showScene(key) {
   clearTimeout(state.timer);
   state.pendingQ = null;
   renderScreen();
-  screenEl.setAttribute("aria-label", "Shared screen. Select part of it to ask ZoomLens about it, or drag a box across it.");
+  screenEl.setAttribute("aria-label", "Shared screen. Select part of it to ask Prism about it, or drag a box across it.");
   showEmpty();
   clearNotice();
   setPill("ok", "Ready");
@@ -1068,7 +1068,7 @@ const GUIDE = {
   color: { say: "Last one: turn on <b>Color Assist</b> to hear what the colors on screen mean.",
     target: () => $('.zl-mode[data-feature="color"]') },
   end: { say: "That's the tour. Try another example above, or ask your own question." },
-  presenter: { say: "This is what MK sees: no ZoomLens anywhere. Press <b>Back to your view</b> to carry on.",
+  presenter: { say: "This is what MK sees: no Prism anywhere. Press <b>Back to your view</b> to carry on.",
     target: () => viewBtn },
 };
 
@@ -1354,8 +1354,8 @@ function lookAway() {
     renderGuide();
     const n = state.frame - state.lastSeen;
     awayStatus.textContent = modes.changes
-      ? "You're back. ZoomLens described each change as it happened."
-      : `You're back. The screen changed ${n === 1 ? "once" : `${n} times`}. Ask ZoomLens what you missed.`;
+      ? "You're back. Prism described each change as it happened."
+      : `You're back. The screen changed ${n === 1 ? "once" : `${n} times`}. Ask Prism what you missed.`;
     startPresenter();
   }, AWAY_MS + 20);
 }
@@ -1373,8 +1373,8 @@ const youTile = $("#you-tile span");
 function updatePresenterStrip() {
   const n = state.asked;
   pvStrip.textContent = n
-    ? `You've asked ZoomLens ${n} question${n === 1 ? "" : "s"} in this meeting. None of them appear on MK's screen.`
-    : "You haven't asked ZoomLens anything yet. When you do, none of it appears on MK's screen.";
+    ? `You've asked Prism ${n} question${n === 1 ? "" : "s"} in this meeting. None of them appear on MK's screen.`
+    : "You haven't asked Prism anything yet. When you do, none of it appears on MK's screen.";
 }
 
 function setPresenterView(on) {
@@ -1384,7 +1384,7 @@ function setPresenterView(on) {
   viewBtn.textContent = on ? "Back to your view" : "See it as the presenter";
   viewNote.textContent = on
     ? "This is what MK, the presenter, sees."
-    : "This is your view, with ZoomLens open.";
+    : "This is your view, with Prism open.";
   shareTag.textContent = on ? "You are screen sharing" : "You are viewing MK's screen";
   mkTile.textContent = on ? "You" : "MK";
   youTile.textContent = on ? "SL" : "You";
@@ -1410,11 +1410,11 @@ form.addEventListener("submit", (e) => {
   input.focus();
 });
 
-// --- ZoomLens open and closed ------------------------------------------------
+// --- Prism open and closed ------------------------------------------------
 
 function syncLensButton(open) {
   lensBtn.setAttribute("aria-pressed", String(open));
-  lensBtn.dataset.tip = open ? "Close ZoomLens" : "Open ZoomLens";
+  lensBtn.dataset.tip = open ? "Close Prism" : "Open Prism";
 }
 
 function setLens(open) {
@@ -1538,16 +1538,16 @@ function trySteps(root, steps) {
     tritanopia: { red: "#eb1c47", amber: "#fa908d", green: "#159b8d" },
   };
   const SAYS = {
-    normal: "All three colors are easy to tell apart, so ZoomLens stays quiet.",
-    deuteranopia: "Red and green now look almost the same, so ZoomLens adds a note and offers to explain the colors.",
-    protanopia: "The colors look closer, but they can still be told apart, so ZoomLens stays quiet.",
-    tritanopia: "The colors change, but stay easy to tell apart, so ZoomLens stays quiet.",
+    normal: "All three colors are easy to tell apart, so Prism stays quiet.",
+    deuteranopia: "Red and green now look almost the same, so Prism adds a note and offers to explain the colors.",
+    protanopia: "The colors look closer, but they can still be told apart, so Prism stays quiet.",
+    tritanopia: "The colors change, but stay easy to tell apart, so Prism stays quiet.",
   };
   const out = root.querySelector(".sim-result");
   const next = trySteps(root, [
     { say: "<b>Try it:</b> switch to <b>Red-green (deuteranopia)</b> to see these dots the way many color-blind people do.",
       target: () => root.querySelector('[data-vision="deuteranopia"]') },
-    { say: "Red and green now look almost alike, so ZoomLens would step in. Try the other two types as well." },
+    { say: "Red and green now look almost alike, so Prism would step in. Try the other two types as well." },
   ]);
   const show = (vision) => {
     root.querySelectorAll("[data-c]").forEach((dot) => { dot.style.background = SEEN[vision][dot.dataset.c]; });
@@ -1581,11 +1581,11 @@ function simSwitch(root, attr, onChange) {
   const out = root.querySelector(".sim-result");
   const keep = simSwitch(root, "keep", () => { draw(); if (keep() === "clip") next(2); });
   const next = trySteps(root, [
-    { say: "<b>Try it:</b> drag the slider to choose the moment you press a button in ZoomLens.",
+    { say: "<b>Try it:</b> drag the slider to choose the moment you press a button in Prism.",
       target: () => range },
     { say: "Most moments give no picture, because most pieces are only updates. Now switch to <b>Keep everything since the last full picture</b>.",
       target: () => root.querySelector('[data-keep="clip"]') },
-    { say: "Now every moment gives a picture. That's how ZoomLens does it." },
+    { say: "Now every moment gives a picture. That's how Prism does it." },
   ]);
 
   function draw() {
@@ -1619,7 +1619,7 @@ function simSwitch(root, attr, onChange) {
   const act = (name) => root.querySelector(`[data-act="${name}"]`);
   const next = trySteps(root, [
     { say: "<b>Try it:</b> press <b>You ask a question</b>.", target: () => act("ask") },
-    { say: "Now play JL, whose copy of ZoomLens has been tampered with. Press <b>JL tries to get everyone's answers</b>.",
+    { say: "Now play JL, whose copy of Prism has been tampered with. Press <b>JL tries to get everyone's answers</b>.",
       target: () => act("snoop") },
     { say: "Refused. Now press <b>JL tries to grab your answer</b>.", target: () => act("steal") },
     { say: "Refused. The server only ever sends an answer to the person who asked." },

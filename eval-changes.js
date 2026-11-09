@@ -40,7 +40,7 @@ const every = Number(opt("every", 2));
 const gap = Number(opt("gap", 10));
 const step = Math.max(1, Math.round(fps * every));
 
-const outDir = path.join(os.tmpdir(), `zoomlens-eval-${path.basename(file, ".h264")}`);
+const outDir = path.join(os.tmpdir(), `prism-eval-${path.basename(file, ".h264")}`);
 fs.rmSync(outDir, { recursive: true, force: true });
 fs.mkdirSync(outDir, { recursive: true });
 

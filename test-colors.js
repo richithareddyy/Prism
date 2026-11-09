@@ -39,7 +39,7 @@ const seenAs = (a, b, type) =>
   deltaE(lab(simulate(linearFromHex(a), type)), lab(simulate(linearFromHex(b), type)));
 
 console.log("\n" + "-".repeat(70));
-console.log("  Zoom Lens, Color Assist analysis");
+console.log("  Prism, Color Assist analysis");
 console.log("-".repeat(70) + "\n");
 
 // 1. CIEDE2000 against Sharma, Wu and Dalal's test data (pairs 1, 17 and 25).

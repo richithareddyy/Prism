@@ -27,7 +27,7 @@ const now = Date.now();
 const context = { typ: "meeting", uid: "user-a", mid: "meeting-1==", ts: now, exp: now + 60000 };
 
 console.log("\n" + "-".repeat(70));
-console.log("  ZoomLens, what the server trusts");
+console.log("  Prism, what the server trusts");
 console.log("-".repeat(70) + "\n");
 
 // 1. The app context.

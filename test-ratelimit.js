@@ -55,7 +55,7 @@ const errorsFor = (peer, id) =>
   peer.seen.filter((m) => m.type === "error" && m.id === id);
 
 console.log("\n" + "-".repeat(70));
-console.log("  Zoom Lens, rate limiting");
+console.log("  Prism, rate limiting");
 console.log(`  cooldown 2s, daily limit 3`);
 console.log("-".repeat(70) + "\n");
 
