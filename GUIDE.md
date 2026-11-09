@@ -37,8 +37,8 @@ Neither mode has been tried with the people it is for yet. [`docs/accessibility.
 Requires Node.js 22.9+, a Zoom Marketplace app configured for the panel and RTMS events, and an Anthropic API key.
 
 ```bash
-git clone https://github.com/richithareddyy/ZoomLens.git
-cd ZoomLens
+git clone https://github.com/richithareddyy/Prism.git
+cd Prism
 npm ci
 cp .env.example .env
 ```

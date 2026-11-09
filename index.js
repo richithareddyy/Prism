@@ -359,7 +359,7 @@ const INSTALLED_HTML = `<!doctype html><html lang="en"><head><meta charset="utf-
 h1{font-size:1.4rem}a{color:#0b5cff}</style></head><body>
 <h1>Prism is added to your Zoom account</h1>
 <p>Join or start a meeting, open <b>Apps</b> in the meeting toolbar, and choose <b>Prism</b>.</p>
-<p><a href="https://zoomlens.vercel.app/privacy.html">Privacy Policy</a> · <a href="https://zoomlens.vercel.app/terms.html">Terms of Use</a></p>
+<p><a href="https://prismforzoom.vercel.app/privacy.html">Privacy Policy</a> · <a href="https://prismforzoom.vercel.app/terms.html">Terms of Use</a></p>
 </body></html>`;
 
 // Zoom won't deliver events until this endpoint proves it holds the app's secret

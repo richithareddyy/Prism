@@ -8,8 +8,8 @@
   <meta property="og:title" content="Prism · See every screen clearly">
   <meta property="og:description" content="Privately ask AI about whatever is shared in your Zoom meeting. Only you see the answer.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://zoomlens.vercel.app/">
-  <meta property="og:image" content="https://zoomlens.vercel.app/og-image.png">
+  <meta property="og:url" content="https://prismforzoom.vercel.app/">
+  <meta property="og:image" content="https://prismforzoom.vercel.app/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Prism logo with the tagline See every screen clearly.">
@@ -42,7 +42,7 @@
       </nav>
       <div class="nav-actions">
         <button type="button" class="btn btn-primary btn-sm" data-try>Try the demo</button>
-        <a class="icon-link" href="https://github.com/richithareddyy/ZoomLens" aria-label="Prism on GitHub">
+        <a class="icon-link" href="https://github.com/richithareddyy/Prism" aria-label="Prism on GitHub">
           <svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         </a>
       </div>
@@ -260,7 +260,7 @@
         <details class="more">
           <summary>How the routing is enforced</summary>
           <p>Every connection is bound to one participant when it opens. A single function is the only way a message leaves the server, and it takes a session, not a socket, so there is no broadcast. A reply is refused unless that session made the request. Seven automated cases run against the real server, including ten participants asking at once, and the protection was deliberately broken to confirm the tests catch it. Who each connection belongs to comes from Zoom's encrypted app context, checked on the server, never from what the panel says about itself.</p>
-          <p class="more-docs">Full data handling: <a href="https://github.com/richithareddyy/ZoomLens/blob/main/docs/privacy.md">docs/privacy.md</a></p>
+          <p class="more-docs">Full data handling: <a href="https://github.com/richithareddyy/Prism/blob/main/docs/privacy.md">docs/privacy.md</a></p>
         </details>
       </div>
     </section>
@@ -301,7 +301,7 @@
               <summary>Technical detail</summary>
               <dl class="eng-text"><dt>Problem</dt><dd>Shared screens arrive as H.264, where one keyframe is a full image and everything after it is only a change. A single frame on its own is not decodable.</dd> <dt>Implementation</dt><dd>An in-memory buffer keeps the latest parameter sets plus everything since the most recent keyframe, so it always holds a decodable clip. Two bugs surfaced: keyframes split across several units were being cut to their last fragment, and data arriving in chunks broke wherever a boundary fell across two.</dd> <dt>Tradeoff</dt><dd>Memory is capped by size rather than count, and drops back to the keyframe when exceeded, so a busy screen costs more memory but never produces an undecodable image.</dd></dl>
               <p>Most of an answer&#39;s wait is the model, not the capture: the panel is set to expect about 6 seconds for Describe and 12 for Explain.</p>
-              <p class="more-docs">Source: <a href="https://github.com/richithareddyy/ZoomLens/blob/main/framebuffer.js">framebuffer.js</a>, <a href="https://github.com/richithareddyy/ZoomLens/blob/main/decode.js">decode.js</a></p>
+              <p class="more-docs">Source: <a href="https://github.com/richithareddyy/Prism/blob/main/framebuffer.js">framebuffer.js</a>, <a href="https://github.com/richithareddyy/Prism/blob/main/decode.js">decode.js</a></p>
             </details>
           </div>
           <div class="eng-panel" role="tabpanel" id="eng-routing" aria-labelledby="eng-tab-routing" hidden>
@@ -326,7 +326,7 @@
               <summary>Technical detail</summary>
               <dl class="eng-text"><dt>Problem</dt><dd>The promise is that your answers reach you and nobody else. A promise enforced in the browser can be undone by whoever controls the browser.</dd> <dt>Implementation</dt><dd>Every connection is bound to one participant when it opens. One function is the only way a message leaves the server, and it takes a session, not a socket. Replies are refused unless the request is outstanding on that session.</dd> <dt>Tradeoff</dt><dd>Messages that several people need, such as a screen share starting, are sent to each person individually. Slower than broadcasting, but there is no broadcast to misuse.</dd></dl>
               <h4>Limits that a reload cannot reset</h4><dl class="eng-text"><dt>Problem</dt><dd>Every question costs money and several seconds. Nothing stopped someone pressing the button repeatedly.</dd> <dt>Implementation</dt><dd>A minimum gap between one participant's requests and a daily ceiling, counted per participant rather than per connection, so closing and reopening the panel does not start the count again.</dd> <dt>Tradeoff</dt><dd>A genuine second question within a few seconds is refused. The panel says how long to wait rather than failing silently.</dd></dl>
-              <p class="more-docs">Source: <a href="https://github.com/richithareddyy/ZoomLens/blob/main/relay.js">relay.js</a>, <a href="https://github.com/richithareddyy/ZoomLens/blob/main/test-isolation.js">test-isolation.js</a>. Protocol: <a href="https://github.com/richithareddyy/ZoomLens/blob/main/docs/protocol.md">docs/protocol.md</a></p>
+              <p class="more-docs">Source: <a href="https://github.com/richithareddyy/Prism/blob/main/relay.js">relay.js</a>, <a href="https://github.com/richithareddyy/Prism/blob/main/test-isolation.js">test-isolation.js</a>. Protocol: <a href="https://github.com/richithareddyy/Prism/blob/main/docs/protocol.md">docs/protocol.md</a></p>
             </details>
           </div>
           <div class="eng-panel" role="tabpanel" id="eng-access" aria-labelledby="eng-tab-access" hidden>
@@ -352,14 +352,14 @@
             <details class="more">
               <summary>Technical detail</summary>
               <dl class="eng-text"><dt>Problem</dt><dd>A screen counts as changed when something a viewer would notice moved, not when a cursor drifts or the video recompresses. And many screens use several colors without relying on them.</dd> <dt>Implementation</dt><dd>Each look shrinks the screen to 64 by 36 in grey and compares it with the last screen described: a moving pointer touches about 2 of 2,304 cells, one added bullet about 40. A change must hold still for one more look before it counts. For color, strongly colored pixels are grouped by hue, each color is passed through the Machado, Oliveira and Fernandes simulation of protanopia, deuteranopia and tritanopia, and pairs are compared with CIEDE2000, which matches the published test values. A pair that is clearly different normally but under 10 apart when simulated is flagged.</dd> <dt>Tradeoff</dt><dd>The simulation models full color blindness, which most people don't have, and it isn't a medical measure. Window buttons and tab icons are colored too, so a note needs more than a few small marks of each color.</dd></dl>
-              <p class="more-docs">Source: <a href="https://github.com/richithareddyy/ZoomLens/blob/main/change.js">change.js</a>, <a href="https://github.com/richithareddyy/ZoomLens/blob/main/colors.js">colors.js</a>, <a href="https://github.com/richithareddyy/ZoomLens/blob/main/watch.js">watch.js</a>. Measurements: <a href="https://github.com/richithareddyy/ZoomLens/blob/main/docs/accessibility.md">docs/accessibility.md</a></p>
+              <p class="more-docs">Source: <a href="https://github.com/richithareddyy/Prism/blob/main/change.js">change.js</a>, <a href="https://github.com/richithareddyy/Prism/blob/main/colors.js">colors.js</a>, <a href="https://github.com/richithareddyy/Prism/blob/main/watch.js">watch.js</a>. Measurements: <a href="https://github.com/richithareddyy/Prism/blob/main/docs/accessibility.md">docs/accessibility.md</a></p>
             </details>
           </div>
             <p class="note">Each demo runs right here in your browser.</p>
           </div>
         </div>
 
-        <p class="arch-foot">Node, Express and WebSockets on the server. Plain HTML, CSS and JavaScript in the panel, loaded by the Zoom Apps SDK. <a href="https://github.com/richithareddyy/ZoomLens">Source on GitHub</a>.</p>
+        <p class="arch-foot">Node, Express and WebSockets on the server. Plain HTML, CSS and JavaScript in the panel, loaded by the Zoom Apps SDK. <a href="https://github.com/richithareddyy/Prism">Source on GitHub</a>.</p>
       </div>
     </section>
 
@@ -371,7 +371,7 @@
         <div class="faq-list">
           <details>
             <summary>Can I use it in my own meetings?</summary>
-            <p>Not yet. Prism is in development and runs on a test Zoom account. The source is on <a href="https://github.com/richithareddyy/ZoomLens">GitHub</a>.</p>
+            <p>Not yet. Prism is in development and runs on a test Zoom account. The source is on <a href="https://github.com/richithareddyy/Prism">GitHub</a>.</p>
           </details>
           <details>
             <summary>Does the presenter know I'm asking?</summary>
@@ -418,7 +418,7 @@
         <li><a href="support.html">Support</a></li>
         <li><a href="privacy.html">Privacy</a></li>
         <li><a href="terms.html">Terms</a></li>
-        <li><a href="https://github.com/richithareddyy/ZoomLens">GitHub</a></li>
+        <li><a href="https://github.com/richithareddyy/Prism">GitHub</a></li>
         <li><a href="https://richitharekula.vercel.app/">Portfolio</a></li>
         <li><a href="https://www.linkedin.com/in/richitha-rekula/">LinkedIn</a></li>
       </ul>

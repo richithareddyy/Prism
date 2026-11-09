@@ -10,8 +10,8 @@ October 2026; check the Marketplace build flow, which lists anything missing.
 in an app name, except to show compatibility, as in "Acme for Zoom", which is
 why the project moved off its first name, ZoomLens. "Prism" is a common word,
 so search the Marketplace for it before submitting; "Prism for Zoom" is the
-fallback if the plain name is taken. The website address and repository still
-use the old name.
+fallback if the plain name is taken. The website is prismforzoom.vercel.app
+and the repository is richithareddyy/Prism.
 
 **Tagline.** See every screen clearly.
 
@@ -43,10 +43,10 @@ isn't made or endorsed by Zoom.
 
 | Field | URL |
 |---|---|
-| Privacy Policy | https://zoomlens.vercel.app/privacy.html |
-| Terms of Use | https://zoomlens.vercel.app/terms.html |
-| Support | https://zoomlens.vercel.app/support.html (reports go to GitHub issues; add a support email once one is chosen) |
-| Documentation | https://zoomlens.vercel.app/guide.html, how to add, use and remove the app |
+| Privacy Policy | https://prismforzoom.vercel.app/privacy.html |
+| Terms of Use | https://prismforzoom.vercel.app/terms.html |
+| Support | https://prismforzoom.vercel.app/support.html (reports go to GitHub issues; add a support email once one is chosen) |
+| Documentation | https://prismforzoom.vercel.app/guide.html, how to add, use and remove the app |
 
 Zoom asks for the domains of the Privacy Policy, Terms of Use, OAuth redirect,
 webhook and Home URLs to be verified, by a TXT record, an uploaded HTML file
@@ -120,7 +120,7 @@ Paste into the submission, with the real URLs.
    Both panels change to **Ready** within a few seconds. (Pressed from the
    second account instead, Zoom asks the host to allow it.)
 4. **Share a screen.** From the host, share any page with a table or chart,
-   for example https://zoomlens.vercel.app or a spreadsheet.
+   for example https://prismforzoom.vercel.app or a spreadsheet.
 5. **Describe screen.** In the second account's panel, press **Describe
    screen**. A summary of the shared screen appears in that panel only; the
    host's panel shows nothing new.
