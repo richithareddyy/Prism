@@ -747,9 +747,8 @@ button.ctl:hover { background: #2A2A2A; }
 /* ===========================================================================
    Hero and demo: the message, then the product, with nothing between them.
 =========================================================================== */
-/* Short enough that the demo starts on the first screen, which shows the
-   product more clearly than any sentence about it. */
-.hero { display: flex; align-items: center; padding: 88px 0 72px; }
+/* The opening screen belongs to the headline alone. */
+.hero { min-height: calc(100svh - 64px); display: flex; align-items: center; padding: 48px 0 64px; }
 .hero > .wrap { width: 100%; }
 .hero .hero-grid { grid-template-columns: 1fr; }
 .hero .hero-copy { padding-top: 0; max-width: 880px; margin: 0 auto; text-align: center; }
@@ -757,7 +756,7 @@ button.ctl:hover { background: #2A2A2A; }
 .hero .body { max-width: 560px; margin: 16px auto 26px; font-size: clamp(1.05rem, 1.3vw, 1.2rem); }
 .hero .cta { justify-content: center; }
 .hero-note { margin: 22px auto 0; max-width: 560px; font-size: 0.88rem; color: var(--text-2); }
-.demo-section { padding: 24px 0 72px; }
+.demo-section { padding: 72px 0; }
 .demo-section .hero-demo { max-width: 1080px; margin: 0 auto; }
 
 /* How it works: one beam through the prism. The slide is the light going in,
@@ -893,8 +892,8 @@ details.more h4 { margin: 18px 0 0; font-size: 0.95rem; }
 .faq .faq-list { margin-top: 8px; }
 
 @media (max-width: 760px) {
-  .hero { padding: 48px 0 40px; }
-  .demo-section { padding: 8px 0 48px; }
+  .hero { padding: 32px 0 48px; }
+  .demo-section { padding: 48px 0; }
   .priv { grid-template-columns: 1fr; gap: 8px; }
   .eng-sum { grid-template-columns: 1fr; gap: 2px; }
   .eng-sum dd { margin-bottom: 8px; }
