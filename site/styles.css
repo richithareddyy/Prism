@@ -747,25 +747,114 @@ button.ctl:hover { background: #2A2A2A; }
 /* ===========================================================================
    Hero and demo: the message, then the product, with nothing between them.
 =========================================================================== */
-.hero { min-height: calc(100svh - 64px); display: flex; align-items: center; padding: 48px 0 64px; }
+/* Short enough that the demo starts on the first screen, which shows the
+   product more clearly than any sentence about it. */
+.hero { display: flex; align-items: center; padding: 88px 0 72px; }
 .hero > .wrap { width: 100%; }
 .hero .hero-grid { grid-template-columns: 1fr; }
 .hero .hero-copy { padding-top: 0; max-width: 880px; margin: 0 auto; text-align: center; }
 .hero h1 { font-size: clamp(2.2rem, 4.4vw, 3.6rem); max-width: 26ch; margin: 0 auto; text-wrap: balance; }
 .hero .body { max-width: 560px; margin: 16px auto 26px; font-size: clamp(1.05rem, 1.3vw, 1.2rem); }
 .hero .cta { justify-content: center; }
-.demo-section { padding: 72px 0; }
+.hero-note { margin: 22px auto 0; max-width: 560px; font-size: 0.88rem; color: var(--text-2); }
+.demo-section { padding: 24px 0 72px; }
 .demo-section .hero-demo { max-width: 1080px; margin: 0 auto; }
 
-/* How it works: three steps in one row */
-.how { padding: 40px 0; }
-.how-row { display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: start; }
-.how-row h2 { font-size: 1.3rem; margin: 2px 0 0; }
-.steps3 { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-.steps3 li { display: grid; gap: 2px; padding-top: 10px; border-top: 2px solid var(--blue); }
-.steps3 .n { font: 600 0.72rem var(--mono); color: var(--blue-ink); }
-.steps3 b { font-size: 1.02rem; }
-.steps3 li > span:last-child { color: var(--text-2); font-size: 0.94rem; }
+/* How it works: one beam through the prism. The slide is the light going in,
+   the question is asked inside the prism, and the answer is the ray that
+   comes out, in that question's own shade of the logo's blue. It plays by
+   itself once in view. State shows in words and shape as well as colour. */
+.how { padding: 88px 0; --ray-0: #0B5CFF; --ray-1: #2D8CFF; --ray-2: #7DB3FF; }
+.beam { position: relative; display: grid; grid-template-columns: minmax(0, 1.1fr) 72px minmax(0, 0.9fr) 96px minmax(0, 1.15fr); align-items: stretch; }
+.beam-card, .beam-prism { position: relative; z-index: 1; display: flex; flex-direction: column; }
+/* Placed explicitly: the gaps between them belong to the light, not to cards. */
+.beam [data-col="0"] { grid-column: 1; }
+.beam [data-col="1"] { grid-column: 3; }
+.beam [data-col="2"] { grid-column: 5; }
+.beam > * { grid-row: 1; }
+.beam-card {
+  min-height: 330px; padding: 20px;
+  background: #fff; border: 1px solid var(--line); border-radius: var(--r-win); box-shadow: var(--shadow);
+  transition: border-color .3s ease;
+}
+.beam-step { margin: 0 0 14px; font-weight: 600; font-size: 0.98rem; color: var(--text-2); transition: color .3s ease; }
+.beam-step .n { font: 600 0.72rem var(--mono); color: var(--blue-ink); margin-right: 8px; }
+/* The step being played is outlined and its label darkens. */
+.beam[data-stage="0"] [data-col="0"], .beam[data-stage="2"] [data-col="2"] { border-color: var(--blue); }
+.beam[data-stage="0"] [data-col="0"] .beam-step, .beam[data-stage="1"] [data-col="1"] .beam-step, .beam[data-stage="2"] [data-col="2"] .beam-step { color: var(--text); }
+
+.beam-slide { padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg-2); }
+.beam-sub { margin: 0; font-size: 0.76rem; color: var(--text-2); }
+.beam-kpi { display: flex; align-items: baseline; gap: 8px; margin: 2px 0 10px; font-size: 1.8rem; font-weight: 700; letter-spacing: -0.02em; }
+.beam-up { font-size: 0.82rem; font-weight: 600; color: #067647; visibility: hidden; }
+.beam-bars { display: flex; align-items: flex-end; gap: 8px; height: 76px; }
+.beam-bars i { flex: 1; background: #D0D5DD; border-radius: 3px 3px 0 0; }
+.beam-bars i.now { height: 60%; background: var(--blue); transition: height .6s ease; }
+.beam-axis { display: flex; gap: 8px; margin-top: 4px; font-size: 0.68rem; color: var(--text-2); }
+.beam-axis span { flex: 1; text-align: center; }
+.beam-note { margin: auto 0 0; padding-top: 14px; font-size: 0.88rem; color: var(--text-2); }
+.beam.changed .beam-up { visibility: visible; }
+.beam.changed .beam-bars i.now { height: 96%; }
+
+/* The light itself: drawn from the cards' edges to the prism's faces. */
+.beam-light { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; overflow: visible; }
+.beam-light path { fill: none; stroke-linecap: round; }
+.beam-in-line { stroke: #8D97A6; stroke-width: 4; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .7s ease; }
+.beam-ghost { stroke-width: 2; opacity: .22; }
+.beam-ghost[data-ghost="0"] { stroke: var(--ray-0); }
+.beam-ghost[data-ghost="1"] { stroke: var(--ray-1); }
+.beam-ghost[data-ghost="2"] { stroke: var(--ray-2); }
+.beam-ray { stroke: var(--ray-0); stroke-width: 5; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .7s ease; }
+
+.beam-prism { align-items: center; text-align: center; padding-top: 20px; }
+.beam-mark { width: 112px; height: 112px; }
+.beam-mark path { fill: #E8F0FF; stroke: var(--blue-ink); stroke-width: 3.5; stroke-linejoin: round; transition: fill .3s ease; }
+.beam[data-stage="1"] .beam-mark path, .beam[data-stage="2"] .beam-mark path { fill: #D6E6FF; }
+.beam-ask { margin: 4px 0 12px; font-weight: 600; }
+.beam-chips { display: grid; gap: 8px; width: 100%; }
+.beam-chips button {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 38px; padding: 7px 14px; cursor: pointer;
+  font: 500 0.86rem var(--font); color: var(--text);
+  background: #fff; border: 1px solid var(--line-ui); border-radius: 999px;
+}
+.beam-chips button:hover { border-color: var(--blue-ink); }
+.beam-chips button[aria-pressed="true"] { color: var(--blue-ink); background: var(--blue-wash); border-color: var(--blue-ink); }
+.beam-chips button[aria-pressed="true"]::after { content: "✓"; }
+.ray-dot { width: 12px; height: 4px; border-radius: 2px; flex: none; }
+[data-q="0"] .ray-dot { background: var(--ray-0); }
+[data-q="1"] .ray-dot { background: var(--ray-1); }
+[data-q="2"] .ray-dot { background: var(--ray-2); }
+.beam-private { margin: 12px 0 0; font-size: 0.82rem; color: var(--text-2); visibility: hidden; }
+.beam.chosen .beam-private { visibility: visible; }
+
+.beam-asked { margin: 0 0 6px; font-size: 0.84rem; color: var(--text-2); }
+.beam-answer { margin: 0; min-height: 4.8em; font-size: 1.02rem; line-height: 1.55; color: var(--text-2); }
+.beam-done { margin: 12px 0 0; font-weight: 600; color: #067647; visibility: hidden; }
+.beam-again { align-self: flex-start; margin-top: auto; padding: 8px 0 0; font: 500 0.86rem var(--font); color: var(--blue-ink); background: none; border: 0; cursor: pointer; }
+.beam.asked .beam-done { visibility: visible; }
+.beam.asked .beam-answer { color: var(--text); }
+
+/* The small connectors stand in for the light where it can't be drawn across. */
+.beam-in, .beam-out { display: none; }
+.beam-in path { fill: none; stroke: #8D97A6; stroke-width: 4; stroke-linecap: round; }
+.beam-out path { fill: none; stroke-width: 3; stroke-linecap: round; opacity: .3; }
+.beam-out [data-ray="0"] { stroke: var(--ray-0); }
+.beam-out [data-ray="1"] { stroke: var(--ray-1); }
+.beam-out [data-ray="2"] { stroke: var(--ray-2); }
+.beam-out path.lit { opacity: 1; stroke-width: 5; }
+
+@media (max-width: 900px) {
+  .beam { grid-template-columns: minmax(0, 1fr); }
+  .beam > *, .beam [data-col] { grid-column: 1; grid-row: auto; }
+  .beam-card { min-height: 0; }
+  .beam-light { display: none; }
+  /* The beam runs downward once the cards stack. */
+  .beam-in, .beam-out { display: block; width: 72px; height: 48px; margin: 14px 0; justify-self: center; transform: rotate(90deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .beam-card, .beam-step, .beam-bars i.now, .beam-mark path, .beam-in-line, .beam-ray { transition: none; }
+}
 
 /* Privacy: what is protected and what is not, side by side */
 .access { padding: 72px 0; }
@@ -804,10 +893,8 @@ details.more h4 { margin: 18px 0 0; font-size: 0.95rem; }
 .faq .faq-list { margin-top: 8px; }
 
 @media (max-width: 760px) {
-  .hero { padding: 32px 0 48px; }
-  .demo-section { padding: 48px 0; }
-  .how-row { grid-template-columns: 1fr; gap: 12px; }
-  .steps3 { grid-template-columns: 1fr; gap: 14px; }
+  .hero { padding: 48px 0 40px; }
+  .demo-section { padding: 8px 0 48px; }
   .priv { grid-template-columns: 1fr; gap: 8px; }
   .eng-sum { grid-template-columns: 1fr; gap: 2px; }
   .eng-sum dd { margin-bottom: 8px; }
@@ -914,12 +1001,13 @@ details.more h4 { margin: 18px 0 0; font-size: 0.95rem; }
    Prism has in focus. Texture, not content; nothing in it is readable. */
 .hero { position: relative; overflow: hidden; }
 .hero > .wrap { position: relative; z-index: 1; }
-/* One fixed layer behind the whole page; content sits above it. */
-.page-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-main, .foot { position: relative; z-index: 1; }
-.page-bg .hb-focus, .page-bg .hb-frame { transition: opacity .5s ease; }
-/* The focus frame belongs to the first screen and fades once you scroll on. */
-body.past-hero .page-bg .hb-focus, body.past-hero .page-bg .hb-frame { opacity: 0; }
+/* The shared-screen drawing sits behind the first screen only, so the
+   sections below keep a clean background. */
+.page-bg {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent);
+}
 .hb-layer { position: absolute; inset: 0; }
 .hb-art { display: block; width: 100%; height: 100%; }
 .hb-art .s { fill: none; stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; }
@@ -927,10 +1015,8 @@ body.past-hero .page-bg .hb-focus, body.past-hero .page-bg .hb-frame { opacity: 
 .hb-art .f { fill: currentColor; }
 .hb-art .soft { opacity: .5; }
 .hb-base { color: #1F2329; opacity: .04; }
-.hb-focus { color: var(--blue-ink); opacity: .13; }
-.hb-corner { fill: none; stroke: rgba(11,92,255,.3); stroke-width: 2; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 
-/* The shared content changes slowly underneath; the focus frame stays put. */
+/* The shared content changes slowly underneath the headline. */
 .hb-scene { opacity: 0; animation: hb-cycle 28s ease-in-out infinite; }
 .hb-scene.s1 { opacity: 1; animation-delay: -2s; }
 .hb-scene.s2 { animation-delay: 5s; }
@@ -938,11 +1024,6 @@ body.past-hero .page-bg .hb-focus, body.past-hero .page-bg .hb-frame { opacity: 
 .hb-scene.s4 { animation-delay: 19s; }
 @keyframes hb-cycle { 0% { opacity: 0 } 5% { opacity: 1 } 25% { opacity: 1 } 30% { opacity: 0 } 100% { opacity: 0 } }
 
-/* Below this width the drawing is cropped too tightly for the frame to sit
-   beside the text, so only the faint texture remains. */
-@media (max-width: 1149px) {
-  .hb-focus, .hb-frame { display: none; }
-}
 
 /* Demo polish: the shared screen fills its space, the people shrink to a strip */
 .screen-inner { width: calc(100% / var(--s, 1)); transform: scale(var(--s, 1)); transform-origin: 0 0; }

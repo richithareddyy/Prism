@@ -1674,11 +1674,105 @@ if ("IntersectionObserver" in window && !reduceMotion) {
   toReveal.forEach((el) => io.observe(el));
 }
 
-// --- Page background: the focus frame is only for the first screen ---------
+// --- How it works: one beam through the prism --------------------------------
+// The story is one number from 0 to 1, stepped through once when the section
+// comes into view. The slide changes before anyone asks, so "What changed?"
+// has something real to answer. Picking a question takes over at any point.
 
-if ("IntersectionObserver" in window) {
-  new IntersectionObserver(([e]) => document.body.classList.toggle("past-hero", !e.isIntersecting), { threshold: 0.35 })
-    .observe($(".hero"));
+{
+  const beam = $("[data-beam]");
+  const chips = [...beam.querySelectorAll("[data-q]")];
+  const small = [...beam.querySelectorAll(".beam-out [data-ray]")];
+  const light = { in: $("[data-in]", beam), live: $("[data-ray-live]", beam), ghosts: [...beam.querySelectorAll("[data-ghost]")] };
+  const asked = ["What changed?", "Explain this", "What do the colors mean?"];
+  const answers = [
+    "Revenue went from $2.1M to $2.5M, about 19%. Q3 is now the tallest bar.",
+    "Q3 is the best quarter on the chart: revenue grew after two flat quarters.",
+    "Blue is this quarter. The grey bars are the three quarters before it, for comparison.",
+  ];
+  const clamp = (v) => Math.max(0, Math.min(1, v));
+  let picked = null;   // a question the visitor chose, which overrides the story
+  let progress = 0;
+  let timers = [];
+
+  // Where the light runs: from the slide's card to the prism's left face, and
+  // from its right face to the answer card. The faces' midpoints are at
+  // (21, 30) and (43, 30) in the mark's 64-unit drawing.
+  function geometry() {
+    const box = beam.getBoundingClientRect();
+    const from = $("[data-col='0']", beam).getBoundingClientRect();
+    const to = $("[data-answer-card]", beam).getBoundingClientRect();
+    const mark = $("[data-mark]", beam).getBoundingClientRect();
+    const s = mark.width / 64;
+    const y = mark.top - box.top + 30 * s;
+    const inX = mark.left - box.left + 21 * s;
+    const outX = mark.left - box.left + 43 * s;
+    const endX = to.left - box.left;
+    const spread = Math.min(70, to.height / 4);
+    const ends = [y - spread, y, y + spread];
+    light.in.setAttribute("d", `M${from.right - box.left} ${y}H${inX}`);
+    light.ghosts.forEach((g, i) => g.setAttribute("d", `M${outX} ${y}L${endX} ${ends[i]}`));
+    light.live.dataset.ends = JSON.stringify([outX, y, endX, ends]);
+  }
+
+  function aimRay(i) {
+    const [outX, y, endX, ends] = JSON.parse(light.live.dataset.ends || "[0,0,0,[0,0,0]]");
+    light.live.setAttribute("d", `M${outX} ${y}L${endX} ${ends[i]}`);
+    light.live.style.stroke = `var(--ray-${i})`;
+  }
+
+  function render() {
+    const p = progress;
+    const q = picked ?? 0;
+    const chosen = picked !== null || p >= 0.4;
+    const answered = picked !== null || p >= 0.78;
+    const changed = picked !== null || p >= 0.22;
+
+    beam.dataset.stage = answered ? "2" : chosen ? "1" : "0";
+    beam.classList.toggle("changed", changed);
+    $("[data-rev]", beam).textContent = changed ? "$2.5M" : "$2.1M";
+    $("[data-slide]", beam).setAttribute("aria-label", `MK's shared slide: Q3 revenue, ${changed ? "now $2.5M, up 19%" : "$2.1M"}`);
+    $("[data-see]", beam).textContent = changed ? "It changed while you looked away." : "Someone shares their screen.";
+
+    light.in.style.strokeDashoffset = String(1 - (picked !== null ? 1 : clamp(p / 0.25)));
+    aimRay(q);
+    light.live.style.strokeDashoffset = String(1 - (picked !== null ? 1 : clamp((p - 0.5) / 0.25)));
+
+    beam.classList.toggle("chosen", chosen);
+    chips.forEach((c, i) => c.setAttribute("aria-pressed", String(chosen && i === q)));
+    small.forEach((r, i) => r.classList.toggle("lit", chosen && i === q));
+
+    beam.classList.toggle("asked", answered);
+    const asking = $("[data-asked]", beam), answer = $("[data-answer]", beam);
+    const askedText = chosen ? `You asked: ${asked[q]}` : "Pick a question to ask.";
+    const answerText = answered ? answers[q] : chosen ? "Prism is looking…" : "Prism's answer shows up here, only for you.";
+    if (asking.textContent !== askedText) asking.textContent = askedText;
+    if (answer.textContent !== answerText) answer.textContent = answerText;
+  }
+
+  const stop = () => { timers.forEach(clearTimeout); timers = []; };
+  function play() {
+    stop();
+    picked = null;
+    [[0, 0], [500, 0.25], [1300, 0.3], [2300, 0.45], [3000, 0.75], [3800, 1]].forEach(([ms, p]) =>
+      timers.push(setTimeout(() => { progress = p; render(); }, ms)));
+  }
+
+  chips.forEach((c, i) => c.addEventListener("click", () => { stop(); picked = i; render(); }));
+  $("[data-again]", beam).addEventListener("click", play);
+
+  new ResizeObserver(() => { geometry(); render(); }).observe(beam);
+
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return;
+      io.disconnect();
+      play();
+    }, { threshold: 0.25 });
+    io.observe(beam);
+  }
+  geometry();
+  render();
 }
 
 // --- Start ------------------------------------------------------------------
