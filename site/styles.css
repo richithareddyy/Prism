@@ -861,9 +861,13 @@ button.ctl:hover { background: #2A2A2A; }
 .access-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 40px; max-width: 980px; margin-top: 24px; }
 .access-grid h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--blue-ink); margin-bottom: 8px; }
 .access-grid p { margin: 0; color: var(--text-2); }
+.access-grid ul { margin: 0; padding-left: 20px; color: var(--text-2); }
+.access-grid li + li { margin-top: 10px; }
 .access-grid b { color: var(--text); }
 .access-grid .btn { margin-top: 14px; }
-.access-foot { max-width: 760px; margin: 24px 0 0; font-size: 0.94rem; color: var(--text-2); }
+.access-beta { max-width: 860px; margin-top: 24px; }
+.access-status { display: inline-block; padding: 5px 10px; border-radius: 6px; background: var(--blue-wash); color: var(--blue-ink); font-size: .8rem; line-height: 1.5; letter-spacing: .06em; text-transform: uppercase; }
+.access-beta p { margin: 10px 0; color: var(--text-2); }
 @media (max-width: 760px) { .access-grid { grid-template-columns: 1fr; } }
 
 .private { padding: 72px 0; border-top: 1px solid var(--line); }

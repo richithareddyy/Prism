@@ -262,21 +262,32 @@
     <!-- ACCESSIBILITY ==================================================== -->
     <section class="access" id="accessibility">
       <div class="wrap">
-        <p class="eyebrow">Accessibility</p>
-        <h2>For when seeing the screen isn't enough.</h2>
+        <p class="eyebrow"><span aria-hidden="true">♿</span> Accessibility</p>
+        <h2>Descriptions and explanations alongside your meeting.</h2>
+        <p class="section-lede">Prism helps when details are visual or depend on color. Turn on these optional modes directly inside your private panel.</p>
         <div class="access-grid">
           <div>
-            <h3>Blind and low vision</h3>
-            <p>Turn on <b>Announce changes</b> and Prism describes each new slide out loud through your screen reader, without you having to ask.</p>
+            <h3><span aria-hidden="true">👁️</span> Blind &amp; Low Vision</h3>
+            <ul>
+              <li><b>Announce Changes:</b> Prism automatically detects meaningful screen changes and generates AI descriptions.</li>
+              <li><b>Screen Reader Support:</b> Descriptions appear in a live text region designed for your screen reader to announce out loud.</li>
+            </ul>
             <button type="button" class="btn btn-ghost btn-sm" data-try-mode="changes" data-scene="slides">Try it on a presentation</button>
           </div>
           <div>
-            <h3>Color blindness</h3>
-            <p>Turn on <b>Color Assist</b> and Prism tells you what the colors on screen mean, such as which numbers are good news and which are bad.</p>
+            <h3><span aria-hidden="true">🎨</span> Color Blindness</h3>
+            <ul>
+              <li><b>Color Assist:</b> Guides AI answers to use clear labels and values instead of relying on color alone.</li>
+              <li><b>Explain Colors:</b> Color Assist flags potentially confusing colors. Choose Explain colors to ask what they mean in a chart or spreadsheet.</li>
+            </ul>
             <button type="button" class="btn btn-ghost btn-sm" data-try-mode="color" data-scene="sheet">Try it on a spreadsheet</button>
           </div>
         </div>
-        <p class="access-foot">Both modes are new and haven't yet been tested with blind or color-blind users.</p>
+        <div class="access-beta" id="accessibility-beta">
+          <h3 class="access-status"><span aria-hidden="true">🧪</span> Help shape the accessibility beta</h3>
+          <p>These features are implemented and in active development. <b>We need your help.</b> They have not yet been validated with blind, low-vision, or color-blind users. If that's you, your feedback can help shape our testing and improvements.</p>
+          <a href="https://docs.google.com/forms/d/1UZdjy11FYdxj_DAEPJ0zUMjvkg4pkslVZ8iiogDx35o/viewform"><span aria-hidden="true">👉</span> Share Accessibility Feedback</a>
+        </div>
       </div>
     </section>
 
@@ -371,7 +382,7 @@
           <div class="eng-panel" role="tabpanel" id="eng-access" aria-labelledby="eng-tab-access" hidden>
             <h3>How it knows when to speak up</h3>
             <p class="eng-plain">Think of glancing up now and then to see whether the slide changed, instead of rereading the whole slide every few seconds.</p>
-            <dl class="eng-sum"><dt>Problem</dt><dd>Announce changes has to notice when the slide changes, and Color Assist has to notice when colors could be confusing. Sending the screen to the AI every few seconds just to check would be slow and expensive.</dd><dt>Solution</dt><dd>Prism keeps a tiny, blurry copy of the screen and compares it every couple of seconds. A moving mouse doesn&#39;t count, but a new slide does, and only then does it ask the AI. For colors, it checks how they would look to someone who is color-blind, and only speaks up when two of them would look alike.</dd></dl>
+            <dl class="eng-sum"><dt>Problem</dt><dd>Announce changes has to notice when the slide changes, and Color Assist has to notice when colors could be confusing. Sending the screen to the AI every few seconds just to check would be slow and expensive.</dd><dt>Solution</dt><dd>Prism keeps a tiny, blurry copy of the screen and compares it every couple of seconds. A moving mouse doesn&#39;t count, but a new slide does, and only then does it ask the AI. For colors, it uses simulations to flag pairs that may be hard to distinguish, then asks the AI whether color is carrying meaning. These simulations guide detection; they do not capture every person's experience.</dd></dl>
             <div class="sim sim-colors" data-sim="colors">
               <div class="sim-bar">
                 <div class="sim-seg" role="radiogroup" aria-label="Color vision">
@@ -430,11 +441,11 @@
           </details>
           <details>
             <summary>Does it work with a screen reader?</summary>
-            <p>Yes. Answers appear in a region screen readers announce as they arrive, the accessibility options are real switches, and every control works from the keyboard. With Announce changes on, you hear about a new slide without having to ask.</p>
+            <p>Prism includes a live region for new answers, labeled accessibility switches, and keyboard controls. Announce changes adds descriptions when a meaningful screen change is detected. These are implemented features; the experience has not yet been validated with blind or low-vision users. See our <a href="#accessibility-beta">accessibility beta and feedback options</a>.</p>
           </details>
           <details>
             <summary>Can it help if I'm color blind?</summary>
-            <p>That's what Color Assist is for. It names things by label instead of color and explains what each color means. The server works out which colors could be confused before asking the model, using simulated color blindness and a standard measure of color difference.</p>
+            <p>Color Assist is designed to help: it asks the AI to use labels and values instead of color alone and offers color explanations. Simulations flag colors that may be confused; they do not represent every person's vision. Validation with color-blind users is still ahead. See our <a href="#accessibility-beta">accessibility beta and feedback options</a>.</p>
           </details>
           <details>
             <summary>Is there a limit on questions?</summary>
